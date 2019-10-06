@@ -11,13 +11,14 @@ public class CameraFollow : MonoBehaviour
     void Start()
     {
         main = this.GetComponent<Camera>();
-        player = GameObject.Find("Test Player");
+        player = GameObject.FindGameObjectWithTag("Player");
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        this.transform.Rotate();
+        //this.transform.Rotate();
         this.transform.LookAt(player.transform);
+        //this.transform.position = new Vector3(player.transform.position.x,4.5f, player.transform.position.z);
     }
 }
