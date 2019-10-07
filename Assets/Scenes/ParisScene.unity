@@ -150,10 +150,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Enemies:
-  - {fileID: 685332132974019748, guid: c0163a11245efb241b3a5ffbfcea41ad, type: 3}
-  - {fileID: 1128893101682719970, guid: b8a7d402f0e6fa44e8668a336ad53cf9, type: 3}
-  - {fileID: 4748822424357149373, guid: ff3d5bf24f391a64ea537b746c65ad0d, type: 3}
-  - {fileID: 5224227759657578601, guid: cd2630fbb385fed47b78ba77896d3184, type: 3}
+  - {fileID: 836443132839474226, guid: c0163a11245efb241b3a5ffbfcea41ad, type: 3}
+  - {fileID: 5461662334449402106, guid: b8a7d402f0e6fa44e8668a336ad53cf9, type: 3}
+  - {fileID: 873486680919095982, guid: ff3d5bf24f391a64ea537b746c65ad0d, type: 3}
+  - {fileID: 8300899348318106112, guid: cd2630fbb385fed47b78ba77896d3184, type: 3}
   spawnpoint:
   - {fileID: 2128408772}
   - {fileID: 934557620}
@@ -166,12 +166,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 447842231}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 10, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &894607795
 GameObject:
@@ -249,13 +249,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 894607795}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalPosition: {x: 0, y: 1, z: 11.23}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!1 &934557619
 GameObject:
   m_ObjectHideFlags: 0
@@ -317,7 +317,7 @@ Transform:
   - {fileID: 934557620}
   - {fileID: 2108264004}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1115117551
 GameObject:
