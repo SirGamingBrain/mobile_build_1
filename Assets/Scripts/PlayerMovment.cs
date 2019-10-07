@@ -8,6 +8,8 @@ public class PlayerMovment : MonoBehaviour
 
     protected Joystick joystick;
 
+    bool moving = false;
+
     float xSpeed = 0f;
     float zSpeed = 0f;
 
@@ -29,17 +31,33 @@ public class PlayerMovment : MonoBehaviour
 
         //Update the speed of the player.
 
-        if (xSpeed < 2.5f && xSpeed > -2.5f) {
-            float tempXSpeed = 1f * (joystick.Horizontal * .5f);
-            xSpeed += tempXSpeed;
+        if (joystick.Horizontal == 0 || joystick.Vertical == 0)
+        {
+            moving = false;
+        }
+        else
+        {
+            moving = true;
         }
 
-        if (zSpeed < 2.5f && zSpeed > -2.5f) {
+        if (moving == true) {
+            float tempXSpeed = 1f * (joystick.Horizontal * .5f);
+
+            if (xSpeed < 2.5f && xSpeed > -2.5f)
+            {
+                xSpeed += tempXSpeed;
+            }
+
             float tempZSpeed = 1f * (joystick.Vertical * .5f);
             zSpeed += tempZSpeed;
+
+            if (zSpeed < 2.5f && zSpeed > -2.5f)
+            {
+                zSpeed += tempZSpeed;
+            }
         }
 
-        if (xSpeed > -2f)
+        if (moving == false)
         {
             if (xSpeed < .1f && xSpeed > -.1f)
             {
@@ -47,27 +65,24 @@ public class PlayerMovment : MonoBehaviour
             }
             else if (xSpeed < 0f)
             {
-                xSpeed += .05f;
+                xSpeed += .1f;
             }
             else if (xSpeed > 0f)
             {
-                xSpeed -= .05f;
+                xSpeed -= .1f;
             }
-        }
 
-        if (zSpeed > -2f)
-        {
             if (zSpeed < .1f && zSpeed > -.1f)
             {
                 zSpeed = 0f;
             }
             else if (zSpeed < 0f)
             {
-                zSpeed += .05f;
+                zSpeed += .1f;
             }
             else if (zSpeed > 0f)
             {
-                zSpeed -= .05f;
+                zSpeed -= .1f;
             }
         }
 
