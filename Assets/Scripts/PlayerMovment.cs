@@ -65,11 +65,11 @@ public class PlayerMovment : MonoBehaviour
         {
             if (xSpeed > 0.1f)
             {
-                xSpeed -= .1f;
+                xSpeed -= .2f;
             }
             else if (xSpeed < -0.1f)
             {
-                xSpeed += .1f;
+                xSpeed += .2f;
             }
             else
             {
@@ -78,9 +78,9 @@ public class PlayerMovment : MonoBehaviour
 
             if (zSpeed > 0f)
             {
-                zSpeed -= .1f;
+                zSpeed -= .2f;
             }
-            else if (zSpeed < -0.1f)
+            else if (zSpeed < -0.2f)
             {
                 zSpeed += .1f;
             }
