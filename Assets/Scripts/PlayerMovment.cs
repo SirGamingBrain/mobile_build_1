@@ -6,7 +6,10 @@ public class PlayerMovment : MonoBehaviour
 {
     Rigidbody rb;
 
-    public Animator ninja;
+    Animator ninja;
+
+    Vector3 forwardVel;
+    Vector3 horizontalVel;
 
     protected Joystick joystick;
 
@@ -14,7 +17,6 @@ public class PlayerMovment : MonoBehaviour
 
     float xSpeed = 0f;
     float zSpeed = 0f;
-
     float heading = 0f;
 
     float debugTimer = 0f;
@@ -26,24 +28,26 @@ public class PlayerMovment : MonoBehaviour
 
         joystick = FindObjectOfType<Joystick>();
 
-        ninja = this.GetComponent<Animator>();
+        ninja = GetComponent<Animator>();
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
+        transform.LookAt(new Vector3 (0f,1.5f,0f));
+
         //A timer to debug all of the things that I need to track.
         debugTimer += Time.deltaTime;
 
         if (debugTimer >= 1f)
         {
-            Debug.Log("Moving: " + moving);
-            Debug.Log("Horizontal Speed: " + xSpeed);
-            Debug.Log("Vertical Speed: " + zSpeed);
+            //Debug.Log("Moving: " + moving);
+            //Debug.Log("Horizontal Speed: " + xSpeed);
+            //Debug.Log("Vertical Speed: " + zSpeed);
             debugTimer = 0f;
         }
 
-        //Checking to see if the player is moving, updating some animations.
+        //Checking to see if the player is moving, and updating some animations.
         if (joystick.Horizontal == 0 || joystick.Vertical == 0)
         {
             moving = false;
@@ -90,12 +94,16 @@ public class PlayerMovment : MonoBehaviour
             }
         }
 
-        rb.velocity = new Vector3(xSpeed, 0f,zSpeed);
+        forwardVel = transform.forward * zSpeed;
+        horizontalVel = transform.right * xSpeed;
+
+        //rb.velocity = new Vector3(xSpeed, 0f,zSpeed);
+        rb.velocity = (forwardVel + horizontalVel);
 
         //Updating the player's direction if they are moving.
         if (moving) {
             heading = Mathf.Atan2(joystick.Horizontal, joystick.Vertical);
-            this.transform.rotation = Quaternion.Euler(0f, heading * Mathf.Rad2Deg, 0f);
+            transform.Rotate(0f, heading * Mathf.Rad2Deg, 0f, Space.Self);
         }
 
         //Updating the state of animation of the player based on what is happening.
