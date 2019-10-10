@@ -6,12 +6,13 @@ public class Enemies : MonoBehaviour
 {
    
     float enemyHP = 100;
+    GameObject GameController;
 
     bool isAlive = true;
     // Start is called before the first frame update
     void Start()
     {
-        
+        GameController = GameObject.FindGameObjectWithTag("GameController");
     }
 
     // Update is called once per frame
@@ -20,19 +21,14 @@ public class Enemies : MonoBehaviour
         
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            enemyHP = 0;
-            isAlive = false;
             onDeath();
         }
-        onDeath();
+        
     }
 
     void onDeath()
     {
-        if (!isAlive)
-        {
-            gameObject.SendMessage("EnemyNumber", SendMessageOptions.DontRequireReceiver);
-            Destroy(this.gameObject);
-        }
+        Destroy(this.gameObject);
+        GameController.SendMessage("EnemiesNumber", SendMessageOptions.DontRequireReceiver);
     }
 }
