@@ -12,24 +12,23 @@ public class GameController : MonoBehaviour
     int waveCounter = 0;
     int Enemycounter;
 
-    public bool isSpawned;
-
     // Start is called before the first frame update
     void Start()
     {
         waveCounter = 1;
-        isSpawned = true;
-        WaveManagement();
-        
-       
+        StartCoroutine(waveSpawning());
     }
 
     // Update is called once per frame
     void Update()
-    {
-        
+    { 
         EnemiesGone();
-        Debug.Log(Enemycounter);
+
+        if (waveCounter == 5)
+        {
+            StopCoroutine(waveSpawning());
+            Debug.Log("Game is finished");
+        }
 
         //check to see if all the enmies have been killed and then increase the coutner
     }
@@ -37,7 +36,7 @@ public class GameController : MonoBehaviour
     void WaveManagement()
     {
        
-        if (waveCounter == 1 && isSpawned)
+        if (waveCounter == 1 )
         {
             for(int i = 0; i<spawnpoint.Length-1; i++)
             {
@@ -53,11 +52,11 @@ public class GameController : MonoBehaviour
 
                 }
             }
+            Debug.Log("This is Wave:" + " " + waveCounter);
 
-           
         }
 
-        if (waveCounter == 2 && isSpawned)
+        if (waveCounter == 2)
         {
             for (int i = 0; i < spawnpoint.Length - 1; i++)
             {
@@ -73,10 +72,10 @@ public class GameController : MonoBehaviour
 
                 }
             }
-           
+            Debug.Log("This is Wave:" + " " + waveCounter);
         }
 
-        if (waveCounter == 3 && isSpawned)
+        if (waveCounter == 3)
         {
             for (int i = 0; i < spawnpoint.Length - 1; i++)
             {
@@ -92,10 +91,10 @@ public class GameController : MonoBehaviour
 
                 }
             }
-           
+            Debug.Log("This is Wave:" + " " + waveCounter);
         }
 
-        if (waveCounter == 4 && isSpawned)
+        if (waveCounter == 4 )
         {
             for (int i = 0; i < spawnpoint.Length - 1; i++)
             {
@@ -111,11 +110,10 @@ public class GameController : MonoBehaviour
 
                 }
             }
+            Debug.Log("This is Wave:" + " " + waveCounter);
 
-            isSpawned = false;
         }
 
-       
     }
 
     void EnemiesGone()
@@ -125,27 +123,33 @@ public class GameController : MonoBehaviour
         {
             //all the enemies are killed you can now increment the waves manager
             waveCounter++;
-            isSpawned = true;
             StartCoroutine(waveSpawning());
             Debug.Log("This is the next Wave:" + "" + waveCounter);
-            Enemycounter = 0;
-
         }
     }
 
-    void EnemyNumber()
-    {
-        Enemycounter = 3;
-        Debug.Log("this the enemies:" + " " + Enemycounter);
-        
-
-    }
+   
 
     IEnumerator waveSpawning()
     {
-        yield return new WaitForSeconds(3);
-        WaveManagement();
-        Debug.Log("Am i here?");
-        isSpawned = false;
+           
+        while (true)
+        {
+            Debug.Log("The next wave:" + " " + waveCounter);
+            if (GameObject.FindGameObjectWithTag("Enemy") != null)
+            {
+                yield return true;
+            }
+
+            else
+            {
+                yield return new WaitForSeconds(3);
+                WaveManagement();
+                waveCounter++;
+                Debug.Log("Am i here?");
+               
+            }
+        }
+           
     }
 }
