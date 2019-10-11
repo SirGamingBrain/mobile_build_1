@@ -18,6 +18,7 @@ public class PlayerMovment : MonoBehaviour
     float xSpeed = 0f;
     float zSpeed = 0f;
     float heading = 0f;
+    float dCenter = 0f;
 
     float debugTimer = 0f;
 
@@ -39,11 +40,14 @@ public class PlayerMovment : MonoBehaviour
         //A timer to debug all of the things that I need to track.
         debugTimer += Time.deltaTime;
 
+        dCenter = Vector3.Distance(new Vector3(0, 1.5f, 0f), transform.position);
+
         if (debugTimer >= 1f)
         {
             //Debug.Log("Moving: " + moving);
             //Debug.Log("Horizontal Speed: " + xSpeed);
             //Debug.Log("Vertical Speed: " + zSpeed);
+            Debug.Log("Distance to Center: " + dCenter);
             debugTimer = 0f;
         }
 
@@ -64,6 +68,11 @@ public class PlayerMovment : MonoBehaviour
         {
             xSpeed = joystick.Horizontal * 5f;
             zSpeed = joystick.Vertical * 5f;
+
+            if (dCenter <= 2f)
+            {
+                zSpeed = 0f;
+            }
         }
         else
         {
