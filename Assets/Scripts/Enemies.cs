@@ -8,18 +8,31 @@ public class Enemies : MonoBehaviour
    
     GameObject GameController;
     GameObject Player;
+    GameObject enemy1;
+    GameObject enemy2;
+    GameObject enemy3;
+    GameObject enemy4;
+
 
 
     int moveSpeed = 3;
+
     int MaxDist = 6;
     int MinDist = 1;
+
+    int EnemyMinDist = 6;
+    int EnemyMaxDist = 1;
 
     // Start is called before the first frame update
     void Start()
     {
         GameController = GameObject.FindGameObjectWithTag("GameController");
         Player = GameObject.FindWithTag("Player");
-        
+        enemy1 = GameObject.Find("Enemy Type 1");
+        enemy2 = GameObject.Find("Enemy Type 2");
+        enemy3 = GameObject.Find("Enemy Type 3");
+        enemy4 = GameObject.Find("Enemy Type 4");
+
     }
 
     // Update is called once per frame
@@ -28,6 +41,7 @@ public class Enemies : MonoBehaviour
 
         CheckPosition();
         AiBehaviors();
+        CheckCollision();
         
     }
 
@@ -123,6 +137,16 @@ public class Enemies : MonoBehaviour
                 }
             }
            
+        }
+    }
+
+
+    void CheckCollision()
+    {
+        if (enemy1)
+        {
+            float dist = Vector3.Distance(enemy1.transform.position, enemy2.transform.position);
+            Debug.Log(dist);
         }
     }
 }
