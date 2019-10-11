@@ -38,7 +38,6 @@ public class Enemies : MonoBehaviour
     void Update()
     {
         distance = Vector3.Distance(this.transform.position, OtherEnemy.transform.position);
-       
         AiBehaviors();
         
     }

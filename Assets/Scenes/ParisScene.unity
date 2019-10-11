@@ -151,10 +151,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Enemies:
-  - {fileID: 836443132839474226, guid: c0163a11245efb241b3a5ffbfcea41ad, type: 3}
-  - {fileID: 5461662334449402106, guid: b8a7d402f0e6fa44e8668a336ad53cf9, type: 3}
-  - {fileID: 873486680919095982, guid: ff3d5bf24f391a64ea537b746c65ad0d, type: 3}
-  - {fileID: 8300899348318106112, guid: cd2630fbb385fed47b78ba77896d3184, type: 3}
+  - {fileID: 836443132839474226, guid: c089a1d83c8ea6646a0f43ee97879ea1, type: 3}
+  - {fileID: 5461662334449402106, guid: d626eaebf89e4924cae0328a5ffb779f, type: 3}
+  - {fileID: 873486680919095982, guid: ad0f1ec61b3941740b721fee3fe00198, type: 3}
+  - {fileID: 8300899348318106112, guid: 67ff7f5810480ff4fb71782ef275d5c7, type: 3}
   spawnpoint:
   - {fileID: 2128408772}
   - {fileID: 934557620}
