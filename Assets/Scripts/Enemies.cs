@@ -8,7 +8,7 @@ public class Enemies : MonoBehaviour
    
     GameObject GameController;
     GameObject Player;
-    GameObject OtherEnemy;
+    GameObject [] OtherEnemy;
 
     Rigidbody rb;
 
@@ -19,7 +19,7 @@ public class Enemies : MonoBehaviour
     int EnemyMaxDist = 6;
 
     float force = 5f;
-    float distance;
+    float distance =  100;
     float attackTimer;
 
     Vector3 lastPos;
@@ -29,17 +29,29 @@ public class Enemies : MonoBehaviour
     {
         GameController = GameObject.FindGameObjectWithTag("GameController");
         Player = GameObject.FindWithTag("Player");
-        OtherEnemy = GameObject.FindGameObjectWithTag("Enemy");
+        OtherEnemy = GameObject.FindGameObjectsWithTag("Enemy");
         rb = GetComponent<Rigidbody>();
        
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        distance = Vector3.Distance(this.transform.position, OtherEnemy.transform.position);
+        OtherEnemy = GameObject.FindGameObjectsWithTag("Enemy");
+
+        foreach (GameObject enemy in OtherEnemy)
+        {
+            float temp = Vector3.Distance(this.transform.position, enemy.transform.position);
+
+            if (temp < distance && temp != 0)
+            {
+                distance = temp;
+            }
+        }
+
+        Debug.Log("Minimum Distance: " + distance);
        
-        AiBehaviors();
+        //AiBehaviors();
         
     }
 
@@ -113,7 +125,7 @@ public class Enemies : MonoBehaviour
         //    return false;
         //}
 
-        if (GameObject.ReferenceEquals(this.gameObject, OtherEnemy.gameObject))
+        /*if (GameObject.ReferenceEquals(this.gameObject, OtherEnemy.gameObject))
         {
             Debug.Log("We da same");
             Debug.Log(this.gameObject.GetInstanceID() + " " + OtherEnemy.GetInstanceID());
@@ -143,13 +155,13 @@ public class Enemies : MonoBehaviour
 
             
            
-        }
+        }*/
 
     }
 
     void AiBehaviors()
     {
-        float dist;
+        /*float dist;
         //handles moving towards the player for each type of enemy so we can have different animations and sound tied to the different types
         if (gameObject.name == "Enemy Type 1(Clone)")
         {
@@ -305,7 +317,7 @@ public class Enemies : MonoBehaviour
 
             }
 
-        }
+        }*/
     }
 
 

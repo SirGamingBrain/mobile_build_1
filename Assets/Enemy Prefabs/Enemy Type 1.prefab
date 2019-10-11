@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 8939212006922379649}
   m_Layer: 0
   m_Name: Enemy Type 1
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -88,7 +88,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 836443132839474226}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
@@ -105,3 +105,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7b6e77272d4a3c45be298c16c3c24e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  EnemyTypes:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
