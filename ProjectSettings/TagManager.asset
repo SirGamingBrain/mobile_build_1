@@ -8,6 +8,8 @@ TagManager:
   - Type 2
   - Type 3
   - Type 4
+  - Enemy
+  - Throwable
   layers:
   - Default
   - TransparentFX

@@ -8,11 +8,20 @@ public class Enemies : MonoBehaviour
    
     GameObject GameController;
     GameObject Player;
+
+    [SerializeField]
+    GameObject throwable;
+    
     GameObject [] OtherEnemy;
 
+    Transform[] PlayerPos;
+
     Rigidbody rb;
+   
+    
 
     int moveSpeed = 3;
+    int maxspeed = 5;
    
     int MaxDist = 6;
     int MinDist = 2;
@@ -27,11 +36,15 @@ public class Enemies : MonoBehaviour
     float distance =  10;
     float UpdatePos;
     float BackPeddle = 1.5f;
+    float ArcherRate = 1f;
+    float ThrowerRate = .5f;
+    float nextShot;
 
     Vector3 lastPos;
     Vector3 PlayerLastMove;
     Vector3 moveAway;
 
+    bool isallowed;
     
 
     // Start is called before the first frame update
@@ -41,22 +54,16 @@ public class Enemies : MonoBehaviour
         Player = GameObject.FindWithTag("Player");
         OtherEnemy = GameObject.FindGameObjectsWithTag("Enemy");
         rb = GetComponent<Rigidbody>();
-        PlayerLastMove = Player.transform.position;
+        PlayerLastMove = new Vector3(Player.transform.position.x, Player.transform.position.y, Player.transform.position.z);
+        nextShot = Time.deltaTime;
+       
        
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        UpdatePos += Time.deltaTime;
-        if (UpdatePos >= 3)
-        {
-            PlayerLastMove = Player.transform.position;
-            UpdatePos = 0;
 
-        }
-        Debug.Log(PlayerLastMove + "last Player pos");
-        //e = GameObject.FindGameObjectsWithTag("Enemy");
         foreach (GameObject enemy in OtherEnemy)
         {
             if (enemy.gameObject != null)
@@ -75,6 +82,8 @@ public class Enemies : MonoBehaviour
 
 
         AiBehaviors();
+       
+
     }
 
     private void OnTriggerEnter(Collider other)
@@ -83,102 +92,6 @@ public class Enemies : MonoBehaviour
         {
             Destroy(gameObject);
         }
-    }
-
-   void CollisionDetection()
-    {
-        //RaycastHit hit;
-
-        //if (Physics.Raycast(transform.position, Vector3.left, out hit, 1000))
-        //{
-
-        //    if (hit.collider.gameObject.CompareTag("Enemy"))
-        //    {
-        //        Debug.Log("There is an enemy already there");
-        //        if (hit.distance <= EnemyMinDist)
-        //        {
-        //            Vector3 direction = this.transform.position - OtherEnemy.transform.position;
-        //            direction.y = 0;
-        //            //transform.Translate(direction.normalized * (force * Time.deltaTime));
-        //            transform.position = (transform.position - OtherEnemy.transform.position).normalized * EnemyMaxDist + OtherEnemy.transform.position;
-        //            Debug.Log("New Pos:" + " " + transform.position + " " + hit.distance);
-
-        //            if (distance != EnemyMaxDist)
-        //            {
-        //                Debug.Log("HEY MAN WE TOO CLOSE CAN YOU MOVE");
-        //                direction = (this.transform.position - OtherEnemy.transform.position);
-        //                direction.y = 0;
-        //                transform.position = (transform.position - OtherEnemy.transform.position).normalized * EnemyMaxDist + OtherEnemy.transform.position;
-        //                //transform.Translate(direction.normalized * (force * Time.deltaTime));
-        //            }
-        //        }
-
-        //        else if (hit.distance > EnemyMaxDist)
-        //        {
-        //            Debug.Log("We shouldnt move");
-
-        //        }
-        //        return true;
-        //    }
-        //    else
-        //    {
-        //        return false;
-        //    }
-
-        //}
-
-        //else
-        //{
-        //    return false;
-        //}
-
-        //if (distance < EnemyMaxDist)
-        //{
-        //    Vector3 direction = this.transform.position - OtherEnemy.transform.position;
-        //    direction.y = 0;
-        //    transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), 5 * Time.deltaTime);
-
-        //    Debug.Log(distance);
-        //    return true;
-        //}
-
-        //else
-        //{
-        //    return false;
-        //}
-
-        /*if (GameObject.ReferenceEquals(this.gameObject, OtherEnemy.gameObject))
-        {
-            Debug.Log("We da same");
-            Debug.Log(this.gameObject.GetInstanceID() + " " + OtherEnemy.GetInstanceID());
-
-        }
-
-        else
-        {
-            Debug.Log("we aint the same");
-            Debug.Log(this.gameObject.GetInstanceID() + " " + OtherEnemy.GetInstanceID());
-        }
-
-        if (this.gameObject.GetInstanceID() == OtherEnemy.gameObject.GetInstanceID())
-        {
-            Debug.Log("we cooling bro");
-        }
-
-        if (this.gameObject.GetInstanceID() != OtherEnemy.gameObject.GetInstanceID())
-        {
-            Debug.Log("we gotta separate bro");
-            if (distance <= EnemyMaxDist)
-            {
-                transform.position = new Vector3(OtherEnemy.transform.position.x + 6, OtherEnemy.transform.position.y, OtherEnemy.transform.position.z + 6);
-                //transform.position = (transform.position - OtherEnemy.transform.position).normalized * EnemyMaxDist + OtherEnemy.transform.position;
-
-            }
-
-            
-           
-        }*/
-
     }
 
     void AiBehaviors()
@@ -201,7 +114,7 @@ public class Enemies : MonoBehaviour
 
             else if (dist < MeleeMinDist)
             {
-                    Debug.Log("attack");
+                   
                     //attack
             }
                 
@@ -210,7 +123,7 @@ public class Enemies : MonoBehaviour
 
                 if (this.gameObject.GetInstanceID() == e.gameObject.GetInstanceID())
                 {
-                    Debug.Log("we cooling bro of type 1");
+                    //Debug.Log("we cooling bro of type 1");
                 }
 
                 else if (this.gameObject.GetInstanceID() != e.gameObject.GetInstanceID())
@@ -219,18 +132,15 @@ public class Enemies : MonoBehaviour
                    
                     if (distance <= MinDist)
                     {
-                        Debug.Log("we gotta separate bro of type 1");
+                        //Debug.Log("we gotta separate bro of type 1");
 
                         moveAway = (this.transform.position - e.transform.position).normalized;
                         rb.velocity = -moveAway * moveSpeed;
-
-
-
                     }
 
                     else if (distance >= MaxDist)
                     {
-                        Debug.Log("we good bro type 1");
+                        //Debug.Log("we good bro type 1");
                         //stand still
                     }
                 }
@@ -258,15 +168,21 @@ public class Enemies : MonoBehaviour
                 }
                 else if (dist < ArcherMaxDist && dist > ArcherMinDist)
                 {
-                    Debug.Log("attack 2");
-                    //  attack
+                   //attack 2 
+                nextShot += Time.deltaTime;
+                if (nextShot >= ArcherRate)
+                {
+                    Instantiate(throwable, transform.position, Quaternion.identity);
+                    nextShot = 0;
+                }
+ 
                 }
 
             foreach (GameObject e in OtherEnemy)
             {
                 if (this.gameObject.GetInstanceID() == e.gameObject.GetInstanceID())
                 {
-                    Debug.Log("we cooling bro of type 2");
+                    //Debug.Log("we cooling bro of type 2");
                 }
 
                 if (this.gameObject.GetInstanceID() !=e.gameObject.GetInstanceID())
@@ -274,7 +190,7 @@ public class Enemies : MonoBehaviour
                     
                     if (distance <= MinDist)
                     {
-                        Debug.Log("we gotta separate bro of type 2");
+                        //Debug.Log("we gotta separate bro of type 2");
                         moveAway = (this.transform.position - e.transform.position).normalized;
                         rb.velocity = -moveAway * moveSpeed;
                         //transform.position = new Vector3(this.transform.position.x - 6, this.transform.position.y, this.transform.position.z -6);
@@ -313,15 +229,22 @@ public class Enemies : MonoBehaviour
             }
             else if (dist < ThrowerMaxDist && dist > ThrowerMinDist)
             {
-                Debug.Log("attack 3");
-                //  attack
+               //attack 3
+                nextShot += Time.deltaTime;
+                if (nextShot >= ThrowerRate)
+                {
+                    Instantiate(throwable, transform.position, Quaternion.identity);
+                    nextShot = 0;
+                }
+
+                
             }
 
             foreach (GameObject e in OtherEnemy)
             {
                 if (this.gameObject.GetInstanceID() == e.gameObject.GetInstanceID())
                 {
-                    Debug.Log("we cooling bro of type 3");
+                    //Debug.Log("we cooling bro of type 3");
                 }
 
                 if (this.gameObject.GetInstanceID() != e.gameObject.GetInstanceID())
@@ -329,7 +252,7 @@ public class Enemies : MonoBehaviour
 
                     if (distance <= MinDist)
                     {
-                        Debug.Log("we gotta separate bro of type 3");
+                        //Debug.Log("we gotta separate bro of type 3");
                         moveAway = (this.transform.position - e.transform.position).normalized;
                         rb.velocity = -moveAway * moveSpeed;
                         //transform.position = new Vector3(this.transform.position.x - 6, this.transform.position.y, this.transform.position.z -6);
@@ -356,27 +279,43 @@ public class Enemies : MonoBehaviour
             dist = Vector3.Distance(transform.position, Player.transform.position);
             if (dist > ThrowerMaxDist)
             {
-                transform.LookAt(Player.transform.position);
-                transform.position = Vector3.MoveTowards(transform.position, Player.transform.position, moveSpeed * Time.deltaTime);
+                //attack 4
+                float ramSpeed = moveSpeed + (.5f * Time.deltaTime);
+                transform.position = Vector3.MoveTowards(transform.position, PlayerLastMove, ramSpeed * Time.deltaTime);
+                //transform.LookAt(Player.transform.position);
+                //transform.position = Vector3.MoveTowards(transform.position, Player.transform.position, moveSpeed * Time.deltaTime);
 
             }
-            else if (dist <= ThrowerMinDist)
-            {
+            //else if (dist <= ThrowerMinDist)
+            //{
 
-                transform.position -= transform.forward * 2.5f * Time.deltaTime;
+            //    transform.position -= transform.forward * 2.5f * Time.deltaTime;
 
-            }
-            else if (dist < ThrowerMaxDist && dist > ThrowerMinDist)
+            //}
+            //else if (dist < ThrowerMaxDist && dist > ThrowerMinDist)
+            //{
+            //    Debug.Log("attack 4");
+            //    transform.position = Vector3.MoveTowards(transform.position, PlayerLastMove, moveSpeed * Time.deltaTime);
+            //    //  attack
+            //}
+
+            if (transform.position == PlayerLastMove)
             {
-                Debug.Log("attack 4");
-                //  attack
+                Debug.Log("I will stand still for a second");
+                UpdatePos += Time.deltaTime;
+               
+                if (UpdatePos >= 1f)
+                {
+                    PlayerLastMove = new Vector3(Player.transform.position.x, Player.transform.position.y, Player.transform.position.z);
+                    UpdatePos = 0;
+                }
             }
 
             foreach (GameObject e in OtherEnemy)
             {
                 if (this.gameObject.GetInstanceID() == e.gameObject.GetInstanceID())
                 {
-                    Debug.Log("we cooling bro of type 4");
+                    //Debug.Log("we cooling bro of type 4");
                 }
 
                 if (this.gameObject.GetInstanceID() != e.gameObject.GetInstanceID())
@@ -384,7 +323,7 @@ public class Enemies : MonoBehaviour
 
                     if (distance <= MinDist)
                     {
-                        Debug.Log("we gotta separate bro of type 4");
+                        //Debug.Log("we gotta separate bro of type 4");
                         moveAway = (this.transform.position - e.transform.position).normalized;
                         rb.velocity = -moveAway * moveSpeed;
                         //transform.position = new Vector3(this.transform.position.x - 6, this.transform.position.y, this.transform.position.z -6);
@@ -403,7 +342,4 @@ public class Enemies : MonoBehaviour
 
         }
     }
-
-
-
 }

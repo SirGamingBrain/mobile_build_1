@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 
 public class GameController : MonoBehaviour
@@ -15,6 +16,7 @@ public class GameController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        
         waveCounter = 1;
         StartCoroutine(waveSpawning());
     }
@@ -22,12 +24,12 @@ public class GameController : MonoBehaviour
     // Update is called once per frame
     void Update()
     { 
-        EnemiesGone();
+        //EnemiesGone();
 
         if (waveCounter == 5 && GameObject.FindGameObjectWithTag("Enemy") == null)
         {
             StopCoroutine(waveSpawning());
-            Debug.Log("Game is finished");
+            Debug.Log("onto next level");
         }
 
         //check to see if all the enmies have been killed and then increase the coutner
@@ -36,7 +38,7 @@ public class GameController : MonoBehaviour
     void WaveManagement()
     {
        
-        if (waveCounter == 1 )
+        if (SceneManager.GetActiveScene () == SceneManager.GetSceneByName("ParisScene"))
         {
             for(int i = 0; i<spawnpoint.Length-1; i++)
             {
@@ -56,7 +58,7 @@ public class GameController : MonoBehaviour
 
         }
 
-        if (waveCounter == 2)
+        if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Level 2"))
         {
             for (int i = 0; i < spawnpoint.Length - 1; i++)
             {
@@ -75,7 +77,7 @@ public class GameController : MonoBehaviour
             //Debug.Log("This is Wave:" + " " + waveCounter);
         }
 
-        if (waveCounter == 3)
+        if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Level 3"))
         {
             for (int i = 0; i < spawnpoint.Length - 1; i++)
             {
@@ -94,7 +96,7 @@ public class GameController : MonoBehaviour
             //Debug.Log("This is Wave:" + " " + waveCounter);
         }
 
-        if (waveCounter == 4 )
+        if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Level 4"))
         {
             for (int i = 0; i < spawnpoint.Length - 1; i++)
             {
@@ -116,17 +118,7 @@ public class GameController : MonoBehaviour
 
     }
 
-    void EnemiesGone()
-    {
-        //all the enemies are dead then increment wave counter
-        if (Enemycounter == 3)
-        {
-            //all the enemies are killed you can now increment the waves manager
-            waveCounter++;
-            StartCoroutine(waveSpawning());
-            //Debug.Log("This is the next Wave:" + "" + waveCounter);
-        }
-    }
+   
 
    
 
@@ -138,6 +130,7 @@ public class GameController : MonoBehaviour
             //Debug.Log("The next wave:" + " " + waveCounter);
             if (GameObject.FindGameObjectWithTag("Enemy") != null)
             {
+               
                 yield return true;
             }
 
@@ -146,7 +139,7 @@ public class GameController : MonoBehaviour
                 yield return new WaitForSeconds(3);
                 WaveManagement();
                 waveCounter++;
-                //Debug.Log("Am i here?");
+               
                
             }
         }
