@@ -8,8 +8,6 @@ public class AudioController : MonoBehaviour
 
     float timer = 0f;
 
-    public AudioSource backgroundMusic;
-
     AudioSource[] sources;
 
     public UIController UIScript;
@@ -41,6 +39,8 @@ public class AudioController : MonoBehaviour
                 source.volume = masterVolume / 100;
             }
         }
+
+        StartCoroutine("FadeIn");
     }
 
     // Update is called once per frame

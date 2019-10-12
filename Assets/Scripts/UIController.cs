@@ -63,7 +63,6 @@ public class UIController : MonoBehaviour
         settings.SetActive(false);
 
         StartCoroutine("FadeIn");
-        audioScript.StartCoroutine("FadeIn");
     }
 
     public void StartGame()
