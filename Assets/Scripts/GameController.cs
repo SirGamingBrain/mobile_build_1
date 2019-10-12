@@ -24,7 +24,7 @@ public class GameController : MonoBehaviour
     { 
         EnemiesGone();
 
-        if (waveCounter == 5)
+        if (waveCounter == 5 && GameObject.FindGameObjectWithTag("Enemy") == null)
         {
             StopCoroutine(waveSpawning());
             Debug.Log("Game is finished");
@@ -42,17 +42,17 @@ public class GameController : MonoBehaviour
             {
                 Instantiate(Enemies[0], spawnpoint[i].position, spawnpoint[i].rotation);
                 //spawn an enemy
-                Debug.Log("this the spawnpoints"+ " " + spawnpoint[i]);
+                //Debug.Log("this the spawnpoints"+ " " + spawnpoint[i]);
                 if (spawnpoint[i] == spawnpoint[1])
                 {
                     i++;
-                    Debug.Log(spawnpoint[i]);
+                    //Debug.Log(spawnpoint[i]);
                     //spawn stronger enemy
                     Instantiate(Enemies[1], spawnpoint[i].position, spawnpoint[i].rotation);
 
                 }
             }
-            Debug.Log("This is Wave:" + " " + waveCounter);
+            //Debug.Log("This is Wave:" + " " + waveCounter);
 
         }
 
@@ -62,17 +62,17 @@ public class GameController : MonoBehaviour
             {
                 Instantiate(Enemies[1], spawnpoint[i].position, spawnpoint[i].rotation);
                 //spawn an enemy
-                Debug.Log("this the spawnpoints" + " " + spawnpoint[i]);
+                //Debug.Log("this the spawnpoints" + " " + spawnpoint[i]);
                 if (spawnpoint[i] == spawnpoint[1])
                 {
                     i++;
-                    Debug.Log(spawnpoint[i]);
+                    //Debug.Log(spawnpoint[i]);
                     //spawn stronger enemy
                     Instantiate(Enemies[2], spawnpoint[i].position, spawnpoint[i].rotation);
 
                 }
             }
-            Debug.Log("This is Wave:" + " " + waveCounter);
+            //Debug.Log("This is Wave:" + " " + waveCounter);
         }
 
         if (waveCounter == 3)
@@ -81,17 +81,17 @@ public class GameController : MonoBehaviour
             {
                 Instantiate(Enemies[2], spawnpoint[i].position, spawnpoint[i].rotation);
                 //spawn an enemy
-                Debug.Log("this the spawnpoints" + " " + spawnpoint[i]);
+                //Debug.Log("this the spawnpoints" + " " + spawnpoint[i]);
                 if (spawnpoint[i] == spawnpoint[1])
                 {
                     i++;
-                    Debug.Log(spawnpoint[i]);
+                    //Debug.Log(spawnpoint[i]);
                     //spawn stronger enemy
                     Instantiate(Enemies[3], spawnpoint[i].position, spawnpoint[i].rotation);
 
                 }
             }
-            Debug.Log("This is Wave:" + " " + waveCounter);
+            //Debug.Log("This is Wave:" + " " + waveCounter);
         }
 
         if (waveCounter == 4 )
@@ -100,17 +100,17 @@ public class GameController : MonoBehaviour
             {
                 Instantiate(Enemies[3], spawnpoint[i].position, spawnpoint[i].rotation);
                 //spawn an enemy
-                Debug.Log("this the spawnpoints" + " " + spawnpoint[i]);
+                //Debug.Log("this the spawnpoints" + " " + spawnpoint[i]);
                 if (spawnpoint[i] == spawnpoint[1])
                 {
                     i++;
-                    Debug.Log(spawnpoint[i]);
+                    //Debug.Log(spawnpoint[i]);
                     //spawn stronger enemy
                     Instantiate(Enemies[3], spawnpoint[i].position, spawnpoint[i].rotation);
 
                 }
             }
-            Debug.Log("This is Wave:" + " " + waveCounter);
+            //Debug.Log("This is Wave:" + " " + waveCounter);
 
         }
 
@@ -124,7 +124,7 @@ public class GameController : MonoBehaviour
             //all the enemies are killed you can now increment the waves manager
             waveCounter++;
             StartCoroutine(waveSpawning());
-            Debug.Log("This is the next Wave:" + "" + waveCounter);
+            //Debug.Log("This is the next Wave:" + "" + waveCounter);
         }
     }
 
@@ -135,7 +135,7 @@ public class GameController : MonoBehaviour
            
         while (true)
         {
-            Debug.Log("The next wave:" + " " + waveCounter);
+            //Debug.Log("The next wave:" + " " + waveCounter);
             if (GameObject.FindGameObjectWithTag("Enemy") != null)
             {
                 yield return true;
@@ -146,7 +146,7 @@ public class GameController : MonoBehaviour
                 yield return new WaitForSeconds(3);
                 WaveManagement();
                 waveCounter++;
-                Debug.Log("Am i here?");
+                //Debug.Log("Am i here?");
                
             }
         }

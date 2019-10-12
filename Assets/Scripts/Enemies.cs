@@ -13,20 +13,26 @@ public class Enemies : MonoBehaviour
     Rigidbody rb;
 
     int moveSpeed = 3;
+   
     int MaxDist = 6;
     int MinDist = 2;
     int MeleeMinDist = 2;
     int MeleeMaxDist = 6;
     int ArcherMinDist = 5;
     int ArcherMaxDist = 10;
+    int ThrowerMaxDist = 4;
+    int ThrowerMinDist = 2;
 
-    float force = 5f;
+    //float force = 5f;
     float distance =  10;
-    float MeleeAttackTimer;
+    float UpdatePos;
+    float BackPeddle = 1.5f;
 
     Vector3 lastPos;
+    Vector3 PlayerLastMove;
+    Vector3 moveAway;
 
-    bool isAllowed;
+    
 
     // Start is called before the first frame update
     void Start()
@@ -35,12 +41,21 @@ public class Enemies : MonoBehaviour
         Player = GameObject.FindWithTag("Player");
         OtherEnemy = GameObject.FindGameObjectsWithTag("Enemy");
         rb = GetComponent<Rigidbody>();
+        PlayerLastMove = Player.transform.position;
        
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
+        UpdatePos += Time.deltaTime;
+        if (UpdatePos >= 3)
+        {
+            PlayerLastMove = Player.transform.position;
+            UpdatePos = 0;
+
+        }
+        Debug.Log(PlayerLastMove + "last Player pos");
         //e = GameObject.FindGameObjectsWithTag("Enemy");
         foreach (GameObject enemy in OtherEnemy)
         {
@@ -56,7 +71,7 @@ public class Enemies : MonoBehaviour
            
         }
 
-        Debug.Log("Minimum Distance: " + distance);
+        //Debug.Log("Minimum Distance: " + distance);
 
 
         AiBehaviors();
@@ -173,42 +188,24 @@ public class Enemies : MonoBehaviour
        //Melee Behaviors
         if (gameObject.name == "Enemy Type 1(Clone)")
         {
-          
                 dist = Vector3.Distance(transform.position, Player.transform.position);
-                if (dist < MeleeMaxDist && dist > MeleeMinDist)
-                {
-                    isAllowed = true;
-                   
-                    if (isAllowed)
-                    {
-                        Vector3 PlayerLastMove = Player.transform.position;
-                        if (transform.position != PlayerLastMove)
-                        {
-                            //Vector3 PlayerLastMove = Player.transform.position;
-                            transform.LookAt(PlayerLastMove);
-                            Debug.Log(PlayerLastMove + " last store move");
-                            Vector3 newPos = Vector3.MoveTowards(transform.position, PlayerLastMove, moveSpeed * Time.deltaTime);
-                            transform.position = Vector3.Lerp(transform.position, newPos, moveSpeed * Time.deltaTime);
-                            //transform.Translate(PlayerLastMove, Space.Self);
-                            isAllowed = false;
-                        }
-                       
-                    }
-                   
+            if (dist > MeleeMaxDist || dist < MeleeMaxDist && dist > MeleeMinDist)
+            {
+               
+                //Vector3 PlayerLastMove = Player.transform.position;
+                //Debug.Log(PlayerLastMove + " last store move");
+                Vector3 newPos = Vector3.MoveTowards(transform.position, Player.transform.position, moveSpeed * Time.deltaTime);
+                transform.position = Vector3.Lerp(transform.position, newPos, 3f);
+                //transform.Translate(PlayerLastMove, Space.Self);
+            }
 
-                }
-                else if (dist < MeleeMinDist)
-                {
+            else if (dist < MeleeMinDist)
+            {
                     Debug.Log("attack");
-                    isAllowed = false;
                     //attack
-                }
-                else if (dist > MeleeMaxDist)
-                {
-                    //stand still
-                    isAllowed = false;
-                }
-            foreach (GameObject e in OtherEnemy)
+            }
+                
+            foreach(GameObject e in OtherEnemy)
             {
 
                 if (this.gameObject.GetInstanceID() == e.gameObject.GetInstanceID())
@@ -218,16 +215,22 @@ public class Enemies : MonoBehaviour
 
                 else if (this.gameObject.GetInstanceID() != e.gameObject.GetInstanceID())
                 {
-                    Debug.Log("we gotta separate bro of type 1");
+                    
+                   
                     if (distance <= MinDist)
                     {
-                        transform.position = new Vector3(this.transform.position.x + 6, this.transform.position.y, this.transform.position.z + 6);
-                        transform.position = (transform.position - e.transform.position).normalized * MaxDist + e.transform.position;
+                        Debug.Log("we gotta separate bro of type 1");
+
+                        moveAway = (this.transform.position - e.transform.position).normalized;
+                        rb.velocity = -moveAway * moveSpeed;
+
+
 
                     }
 
                     else if (distance >= MaxDist)
                     {
+                        Debug.Log("we good bro type 1");
                         //stand still
                     }
                 }
@@ -247,16 +250,16 @@ public class Enemies : MonoBehaviour
                     transform.position = Vector3.MoveTowards(transform.position, Player.transform.position, moveSpeed * Time.deltaTime);
 
                 }
-                else if (dist < ArcherMinDist)
+                else if (dist <= ArcherMinDist)
                 {
                     
-                    transform.position -= transform.forward * moveSpeed * Time.deltaTime;
-                    // attack
+                    transform.position -= transform.forward* BackPeddle * Time.deltaTime;
+                    
                 }
                 else if (dist < ArcherMaxDist && dist > ArcherMinDist)
                 {
-                    Debug.Log("attack");
-                    //  stand still
+                    Debug.Log("attack 2");
+                    //  attack
                 }
 
             foreach (GameObject e in OtherEnemy)
@@ -268,11 +271,14 @@ public class Enemies : MonoBehaviour
 
                 if (this.gameObject.GetInstanceID() !=e.gameObject.GetInstanceID())
                 {
-                    Debug.Log("we gotta separate bro of type 2");
+                    
                     if (distance <= MinDist)
                     {
-                        transform.position = new Vector3(this.transform.position.x - 6, this.transform.position.y, this.transform.position.z -6);
-                        transform.position = (transform.position - e.transform.position).normalized * MaxDist + e.transform.position;
+                        Debug.Log("we gotta separate bro of type 2");
+                        moveAway = (this.transform.position - e.transform.position).normalized;
+                        rb.velocity = -moveAway * moveSpeed;
+                        //transform.position = new Vector3(this.transform.position.x - 6, this.transform.position.y, this.transform.position.z -6);
+                        //transform.position = (transform.position - e.transform.position).normalized * MaxDist + e.transform.position;
 
                     }
                     else if (distance >= MaxDist)
@@ -288,93 +294,114 @@ public class Enemies : MonoBehaviour
 
         }
 
-        //if (gameObject.name == "Enemy Type 3(Clone)")
-        //{
-        //    foreach (GameObject e in OtherEnemy)
-        //    {
-        //        dist = Vector3.Distance(transform.position, Player.transform.position);
-        //        if (dist < MaxDist && dist > MinDist)
-        //        {
-        //            transform.LookAt(Player.transform.position);
-        //            transform.position += transform.forward * moveSpeed * Time.deltaTime;
+        //thrower
+        if (gameObject.name == "Enemy Type 3(Clone)")
+        {
 
-        //        }
-        //        else if (dist < MinDist)
-        //        {
-        //            Debug.Log("attack");
-        //            // attack
-        //        }
-        //        else if (dist > MaxDist)
-        //        {
-        //            // stand still
-        //        }
-        //        if (this.gameObject.GetInstanceID() == e.gameObject.GetInstanceID())
-        //        {
-        //            Debug.Log("we cooling bro");
-        //        }
+            dist = Vector3.Distance(transform.position, Player.transform.position);
+            if (dist > ThrowerMaxDist)
+            {
+                transform.LookAt(Player.transform.position);
+                transform.position = Vector3.MoveTowards(transform.position, Player.transform.position, moveSpeed * Time.deltaTime);
 
-        //        if (this.gameObject.GetInstanceID() != e.gameObject.GetInstanceID())
-        //        {
-        //            Debug.Log("we gotta separate bro");
-        //            if (distance <= EnemyMaxDist)
-        //            {
-        //                transform.position = new Vector3(e.transform.position.x + 6, e.transform.position.y, e.transform.position.z + 6);
-        //                transform.position = (transform.position - e.transform.position).normalized * EnemyMaxDist + e.transform.position;
+            }
+            else if (dist <= ThrowerMinDist)
+            {
 
-        //            }
+                transform.position -= transform.forward * 2.5f * Time.deltaTime;
 
+            }
+            else if (dist < ThrowerMaxDist && dist > ThrowerMinDist)
+            {
+                Debug.Log("attack 3");
+                //  attack
+            }
 
+            foreach (GameObject e in OtherEnemy)
+            {
+                if (this.gameObject.GetInstanceID() == e.gameObject.GetInstanceID())
+                {
+                    Debug.Log("we cooling bro of type 3");
+                }
 
-        //        }
-        //    }
+                if (this.gameObject.GetInstanceID() != e.gameObject.GetInstanceID())
+                {
 
+                    if (distance <= MinDist)
+                    {
+                        Debug.Log("we gotta separate bro of type 3");
+                        moveAway = (this.transform.position - e.transform.position).normalized;
+                        rb.velocity = -moveAway * moveSpeed;
+                        //transform.position = new Vector3(this.transform.position.x - 6, this.transform.position.y, this.transform.position.z -6);
+                        //transform.position = (transform.position - e.transform.position).normalized * MaxDist + e.transform.position;
 
-        //}
-
-        //if (gameObject.name == "Enemy Type 4(Clone)")
-        //{
-        //    foreach (GameObject e in OtherEnemy)
-        //    {
-        //        dist = Vector3.Distance(transform.position, Player.transform.position);
-        //        if (dist < MaxDist && dist > MinDist)
-        //        {
-        //            transform.LookAt(Player.transform.position);
-        //            transform.position += transform.forward * moveSpeed * Time.deltaTime;
-
-        //        }
-
-        //        else if (dist < MinDist)
-        //        {
-        //            Debug.Log("attack");
-        //            // attack
-        //        }
-        //        else if (dist > MaxDist)
-        //        {
-        //            // stand still
-        //        }
-        //        if (this.gameObject.GetInstanceID() == e.gameObject.GetInstanceID())
-        //        {
-
-        //            Debug.Log("we cooling bro");
-        //        }
-
-        //        if (this.gameObject.GetInstanceID() != e.gameObject.GetInstanceID())
-        //        {
-        //            Debug.Log("we gotta separate bro");
-        //            if (distance <= EnemyMaxDist)
-        //            {
-        //                transform.position = new Vector3(e.transform.position.x + 6, e.transform.position.y, e.transform.position.z + 6);
-        //                transform.position = (transform.position - e.transform.position).normalized * EnemyMaxDist + e.transform.position;
-
-        //            }
+                    }
+                    else if (distance >= MaxDist)
+                    {
+                        //stand still
+                    }
 
 
 
-        //        }
-        //    }
+                }
+            }
 
 
-        //}
+
+        }
+
+        if (gameObject.name == "Enemy Type 4(Clone)")
+        {
+
+            dist = Vector3.Distance(transform.position, Player.transform.position);
+            if (dist > ThrowerMaxDist)
+            {
+                transform.LookAt(Player.transform.position);
+                transform.position = Vector3.MoveTowards(transform.position, Player.transform.position, moveSpeed * Time.deltaTime);
+
+            }
+            else if (dist <= ThrowerMinDist)
+            {
+
+                transform.position -= transform.forward * 2.5f * Time.deltaTime;
+
+            }
+            else if (dist < ThrowerMaxDist && dist > ThrowerMinDist)
+            {
+                Debug.Log("attack 4");
+                //  attack
+            }
+
+            foreach (GameObject e in OtherEnemy)
+            {
+                if (this.gameObject.GetInstanceID() == e.gameObject.GetInstanceID())
+                {
+                    Debug.Log("we cooling bro of type 4");
+                }
+
+                if (this.gameObject.GetInstanceID() != e.gameObject.GetInstanceID())
+                {
+
+                    if (distance <= MinDist)
+                    {
+                        Debug.Log("we gotta separate bro of type 4");
+                        moveAway = (this.transform.position - e.transform.position).normalized;
+                        rb.velocity = -moveAway * moveSpeed;
+                        //transform.position = new Vector3(this.transform.position.x - 6, this.transform.position.y, this.transform.position.z -6);
+                        //transform.position = (transform.position - e.transform.position).normalized * MaxDist + e.transform.position;
+
+                    }
+                    else if (distance >= MaxDist)
+                    {
+                        //stand still
+                    }
+
+
+
+                }
+            }
+
+        }
     }
 
 
