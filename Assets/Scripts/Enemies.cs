@@ -37,10 +37,7 @@ public class Enemies : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-<<<<<<< HEAD
-        distance = Vector3.Distance(this.transform.position, OtherEnemy.transform.position);
-        AiBehaviors();
-=======
+
         OtherEnemy = GameObject.FindGameObjectsWithTag("Enemy");
 
         foreach (GameObject enemy in OtherEnemy)
@@ -56,7 +53,7 @@ public class Enemies : MonoBehaviour
         Debug.Log("Minimum Distance: " + distance);
        
         //AiBehaviors();
->>>>>>> 1d67a07d2ae6222a93457392da7f5123edfa64da
+
         
     }
 
