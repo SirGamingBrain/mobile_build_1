@@ -18,11 +18,16 @@ public class UIController : MonoBehaviour
     public TextMeshProUGUI volumeText;
     public TextMeshProUGUI qualityText;
 
+    public CanvasGroup UI;
+
     string[] names;
 
     string currentQuality;
 
     int qualityIndex;
+
+    public bool changeScenesOut = false;
+    public bool changeScenesIn = true;
 
     public void Awake()
     {
@@ -56,8 +61,9 @@ public class UIController : MonoBehaviour
 
     public void StartGame()
     {
-        //Fly and Tilt the Camera Up, then load the scene and fly back down.
-        SceneManager.LoadScene("Level 1");
+        //Fade the camera and load the scene.
+        UI.interactable = false;
+        StartCoroutine("Fade");
     }
 
     public void ExitGame()
@@ -69,7 +75,7 @@ public class UIController : MonoBehaviour
     public void ContinueGame()
     {
         //Load the last level you were on.
-        SceneManager.LoadScene("Level 1");
+        StartCoroutine("Fade");
     }
 
     public void Settings()
@@ -135,4 +141,19 @@ public class UIController : MonoBehaviour
             qualityText.text = names[qualityIndex];
         }
     }
+
+    IEnumerator Fade()
+    {
+        for (float alpha = 1f; alpha >= -0.05f; alpha -= .05f)
+        {
+            UI.alpha = alpha;
+
+            if (alpha <= 0f)
+            {
+                SceneManager.LoadScene("Level 1");
+            }
+
+            yield return new WaitForSeconds(.1f);
+        }
+    } 
 }

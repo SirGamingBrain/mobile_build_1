@@ -12,6 +12,8 @@ public class AudioController : MonoBehaviour
 
     AudioSource[] sources;
 
+    public UIController UIScript;
+
     private void Awake()
     {
         if (!PlayerPrefs.HasKey("Volume"))
@@ -58,7 +60,20 @@ public class AudioController : MonoBehaviour
             UpdateAudioSources();
         }
 
-        
+        if (UIScript.changeScenesOut == true)
+        {
+            foreach(AudioSource source in sources)
+            {
+                if (source.volume > 0)
+                {
+                    source.volume -= Time.deltaTime / 3f;
+                }
+                else
+                {
+                    source.volume = 0;
+                }
+            }
+        }
     }
 
     public void UpdateAudioSources()
@@ -72,6 +87,17 @@ public class AudioController : MonoBehaviour
             else
             {
                 source.volume = masterVolume/100;
+            }
+        }
+    }
+
+    IEnumerator Fade()
+    {
+        if (UIScript.changeScenesOut == true) {
+            for (float alpha = 1f; alpha >= -0.05f; alpha -= .05f)
+            {
+
+                yield return new WaitForSeconds(.1f);
             }
         }
     }
