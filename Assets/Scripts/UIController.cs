@@ -14,11 +14,13 @@ public class UIController : MonoBehaviour
     public Slider settingsVolume;
 
     public GameObject settings;
+    public GameObject Wipe;
 
     public TextMeshProUGUI volumeText;
     public TextMeshProUGUI qualityText;
 
     public CanvasGroup UI;
+    public CanvasGroup WipeGroup;
 
     string[] names;
 
@@ -28,6 +30,8 @@ public class UIController : MonoBehaviour
 
     public bool changeScenesOut = false;
     public bool changeScenesIn = true;
+
+    bool continuing = false;
 
     public void Awake()
     {
@@ -43,7 +47,7 @@ public class UIController : MonoBehaviour
     // Start is called before the first frame update
     public void Start()
     {
-        settingsVolume.value = PlayerPrefs.GetFloat("Volume");
+        settingsVolume.value = audioScript.masterVolume;
         settings = GameObject.Find("Settings Page");
 
         for (int i = 0; i < names.Length; i++)
@@ -57,25 +61,33 @@ public class UIController : MonoBehaviour
         }
 
         settings.SetActive(false);
+
+        StartCoroutine("FadeIn");
     }
 
     public void StartGame()
     {
         //Fade the camera and load the scene.
-        UI.interactable = false;
-        StartCoroutine("Fade");
+        Wipe.SetActive(true);
+        PlayerPrefs.Save();
+        StartCoroutine("FadeOut");
+        audioScript.StartCoroutine("FadeOut");
     }
 
     public void ExitGame()
     {
         //Save the current settings, and close the application.
+        PlayerPrefs.Save();
         Application.Quit();
     }
 
     public void ContinueGame()
     {
         //Load the last level you were on.
-        StartCoroutine("Fade");
+        continuing = true;
+        PlayerPrefs.Save();
+        StartCoroutine("FadeOut");
+        audioScript.StartCoroutine("FadeOut");
     }
 
     public void Settings()
@@ -124,6 +136,8 @@ public class UIController : MonoBehaviour
             QualitySettings.SetQualityLevel(qualityIndex, true);
             qualityText.text = names[qualityIndex];
         }
+
+        PlayerPrefs.SetString("Quality Level", names[qualityIndex]);
     }
 
     public void DecreaseQuality()
@@ -140,20 +154,43 @@ public class UIController : MonoBehaviour
             QualitySettings.SetQualityLevel(qualityIndex, true);
             qualityText.text = names[qualityIndex];
         }
+
+        PlayerPrefs.SetString("Quality Level", names[qualityIndex]);
     }
 
-    IEnumerator Fade()
+    IEnumerator FadeOut()
     {
         for (float alpha = 1f; alpha >= -0.05f; alpha -= .05f)
         {
             UI.alpha = alpha;
+            WipeGroup.alpha = 1f - alpha;
 
-            if (alpha <= 0f)
+            if (alpha <= 0f && continuing == true)
+            {
+                SceneManager.LoadScene(PlayerPrefs.GetString("Last Level"));
+            }
+            else if (alpha <= 0f && continuing == false)
             {
                 SceneManager.LoadScene("Level 1");
             }
 
             yield return new WaitForSeconds(.1f);
         }
-    } 
+    }
+
+    IEnumerator FadeIn()
+    {
+        for (float alpha = 1f; alpha >= -0.05f; alpha -= .05f)
+        {
+            UI.alpha = 1f - alpha;
+            WipeGroup.alpha = alpha;
+
+            if (alpha <= 0f)
+            {
+                Wipe.SetActive(false);
+            }
+
+            yield return new WaitForSeconds(.1f);
+        }
+    }
 }

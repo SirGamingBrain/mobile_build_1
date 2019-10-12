@@ -8,8 +8,6 @@ public class AudioController : MonoBehaviour
 
     float timer = 0f;
 
-    public AudioSource backgroundMusic;
-
     AudioSource[] sources;
 
     public UIController UIScript;
@@ -41,6 +39,8 @@ public class AudioController : MonoBehaviour
                 source.volume = masterVolume / 100;
             }
         }
+
+        StartCoroutine("FadeIn");
     }
 
     // Update is called once per frame
@@ -91,14 +91,43 @@ public class AudioController : MonoBehaviour
         }
     }
 
-    IEnumerator Fade()
+    IEnumerator FadeOut()
     {
-        if (UIScript.changeScenesOut == true) {
-            for (float alpha = 1f; alpha >= -0.05f; alpha -= .05f)
+        for (float alpha = 1f; alpha >= -0.05f; alpha -= .05f)
+        {
+            foreach (AudioSource source in sources)
             {
-
-                yield return new WaitForSeconds(.1f);
+                if (source.volume > 0)
+                {
+                    source.volume = alpha * (masterVolume / 100);
+                }
+                else
+                {
+                    source.volume = 0;
+                }
             }
+
+            yield return new WaitForSeconds(.1f);
+        }
+    }
+
+    IEnumerator FadeIn()
+    {
+        for (float alpha = 1f; alpha >= -0.05f; alpha -= .05f)
+        {
+            foreach (AudioSource source in sources)
+            {
+                if (source.volume < 1)
+                {
+                    source.volume = (1f - alpha) * (masterVolume/100);
+                }
+                else
+                {
+                    source.volume = 1;
+                }
+            }
+
+            yield return new WaitForSeconds(.1f);
         }
     }
 }
