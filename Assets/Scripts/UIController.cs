@@ -160,37 +160,37 @@ public class UIController : MonoBehaviour
 
     IEnumerator FadeOut()
     {
-        for (float alpha = 1f; alpha >= -0.05f; alpha -= .05f)
+        for (float alpha = 1f; alpha >= 0f; alpha -= Time.deltaTime)
         {
             UI.alpha = alpha;
             WipeGroup.alpha = 1f - alpha;
 
-            if (alpha <= 0f && continuing == true)
+            if (alpha <= 0.05f && continuing == true)
             {
                 SceneManager.LoadScene(PlayerPrefs.GetString("Last Level"));
             }
-            else if (alpha <= 0f && continuing == false)
+            else if (alpha <= 0.05f && continuing == false)
             {
                 SceneManager.LoadScene("Level 1");
             }
 
-            yield return new WaitForSeconds(.1f);
+            yield return new WaitForSeconds(0f);
         }
     }
 
     IEnumerator FadeIn()
     {
-        for (float alpha = 1f; alpha >= -0.05f; alpha -= .05f)
+        for (float alpha = 1f; alpha >= 0f; alpha -= Time.deltaTime)
         {
             UI.alpha = 1f - alpha;
             WipeGroup.alpha = alpha;
 
-            if (alpha <= 0f)
+            if (alpha <= 0.05f)
             {
                 Wipe.SetActive(false);
             }
 
-            yield return new WaitForSeconds(.1f);
+            yield return new WaitForSeconds(0f);
         }
     }
 }

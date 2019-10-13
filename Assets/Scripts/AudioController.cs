@@ -93,7 +93,7 @@ public class AudioController : MonoBehaviour
 
     IEnumerator FadeOut()
     {
-        for (float alpha = 1f; alpha >= -0.05f; alpha -= .05f)
+        for (float alpha = 1f; alpha >= 0f; alpha -= Time.deltaTime)
         {
             foreach (AudioSource source in sources)
             {
@@ -107,13 +107,13 @@ public class AudioController : MonoBehaviour
                 }
             }
 
-            yield return new WaitForSeconds(.1f);
+            yield return new WaitForSeconds(0f);
         }
     }
 
     IEnumerator FadeIn()
     {
-        for (float alpha = 1f; alpha >= -0.05f; alpha -= .05f)
+        for (float alpha = 1f; alpha >= 0f; alpha -= Time.deltaTime)
         {
             foreach (AudioSource source in sources)
             {
@@ -127,7 +127,7 @@ public class AudioController : MonoBehaviour
                 }
             }
 
-            yield return new WaitForSeconds(.1f);
+            yield return new WaitForSeconds(0f);
         }
     }
 }
