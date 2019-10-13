@@ -1,9 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerMovment : MonoBehaviour
 {
+    public AudioSource playerSounds;
+
+    public AudioClip dodge;
+    public AudioClip attack;
+    public AudioClip ouch;
+    public AudioClip die;
+
     Rigidbody rb;
 
     Animator ninja;
@@ -14,11 +22,17 @@ public class PlayerMovment : MonoBehaviour
     protected Joystick joystick;
 
     bool moving = false;
+    bool attacking = false;
+    bool blocking = false;
+    bool hurting = false;
 
     float xSpeed = 0f;
     float zSpeed = 0f;
     float heading = 0f;
+    float tempHeading = 0f;
     float dCenter = 0f;
+
+    float health = 5;
 
     float debugTimer = 0f;
 
@@ -42,7 +56,7 @@ public class PlayerMovment : MonoBehaviour
 
         dCenter = Vector3.Distance(new Vector3(0, 1.5f, 0f), transform.position);
 
-        if (debugTimer >= 1f)
+        if (debugTimer >= 5f)
         {
             //Debug.Log("Moving: " + moving);
             //Debug.Log("Horizontal Speed: " + xSpeed);
@@ -52,7 +66,8 @@ public class PlayerMovment : MonoBehaviour
         }
 
         //Checking to see if the player is moving, and updating some animations.
-        if (joystick.Horizontal == 0 || joystick.Vertical == 0)
+
+        if ((joystick.Horizontal == 0 && joystick.Vertical == 0) || (attacking || blocking) || (ninja.GetBool("Attacking")))
         {
             moving = false;
             ninja.SetBool("Running", false);
@@ -109,13 +124,64 @@ public class PlayerMovment : MonoBehaviour
         //rb.velocity = new Vector3(xSpeed, 0f,zSpeed);
         rb.velocity = (forwardVel + horizontalVel);
 
-        //Updating the player's direction if they are moving.
+        //Updating the player's direction based on movement.
         if (moving) {
             heading = Mathf.Atan2(joystick.Horizontal, joystick.Vertical);
-            transform.Rotate(0f, heading * Mathf.Rad2Deg, 0f, Space.Self);
+            tempHeading = heading;
         }
 
-        //Updating the state of animation of the player based on what is happening.
+        transform.Rotate(0f, tempHeading * Mathf.Rad2Deg, 0f, Space.Self);
 
+        //Updating the state of animation of the player based on what is happening.
+        if (blocking == true)
+        {
+            rb.velocity = (transform.forward * 7.5f);
+        }
+
+        if (hurting == true)
+        {
+            playerSounds.clip = ouch;
+            playerSounds.Play();
+            ninja.SetBool("Hurt", true);
+        }
+    }
+
+    public void OnTriggerEnter(Collider other)
+    {
+
+    }
+
+    public void Hit()
+    {
+        attacking = false;
+        ninja.SetBool("Attacking", false);
+    }
+
+    public void AttackButton()
+    {
+        playerSounds.clip = attack;
+        playerSounds.Play();
+        attacking = true;
+        ninja.SetBool("Attacking", true);
+    }
+
+    public void Block()
+    {
+        blocking = false;
+        ninja.SetBool("Blocking", false);
+    }
+
+    public void BlockButton()
+    {
+        playerSounds.clip = dodge;
+        playerSounds.Play();
+        blocking = true;
+        ninja.SetBool("Blocking", true);
+    }
+
+    public void Hurt()
+    {
+        hurting = false;
+        ninja.SetBool("Hurt", false);
     }
 }
