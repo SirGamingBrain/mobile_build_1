@@ -17,15 +17,15 @@ public class Enemies : MonoBehaviour
     Transform[] PlayerPos;
 
     Rigidbody rb;
-   
-    
+
+    Animator enemyAnimator;
 
     int moveSpeed = 3;
     int maxspeed = 5;
    
     int MaxDist = 6;
     int MinDist = 2;
-    int MeleeMinDist = 2;
+    int MeleeMinDist = 1;
     int MeleeMaxDist = 6;
     int ArcherMinDist = 5;
     int ArcherMaxDist = 10;
@@ -56,8 +56,7 @@ public class Enemies : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         PlayerLastMove = new Vector3(Player.transform.position.x, Player.transform.position.y, Player.transform.position.z);
         nextShot = Time.deltaTime;
-       
-       
+        enemyAnimator = this.GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -86,9 +85,9 @@ public class Enemies : MonoBehaviour
 
     }
 
-    private void OnTriggerEnter(Collider other)
+    public void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Player"))
+        if (other.gameObject.CompareTag("Katana"))
         {
             Destroy(gameObject);
         }
@@ -101,52 +100,26 @@ public class Enemies : MonoBehaviour
        //Melee Behaviors
         if (gameObject.name == "Enemy Type 1(Clone)")
         {
-                dist = Vector3.Distance(transform.position, Player.transform.position);
-            if (dist > MeleeMaxDist || dist < MeleeMaxDist && dist > MeleeMinDist)
+            dist = Vector3.Distance(transform.position, Player.transform.position);
+
+            if (dist > MeleeMinDist)
             {
-               
+                enemyAnimator.SetBool("Moving", true);
+                enemyAnimator.SetBool("Attacking", false);
                 //Vector3 PlayerLastMove = Player.transform.position;
                 //Debug.Log(PlayerLastMove + " last store move");
                 Vector3 newPos = Vector3.MoveTowards(transform.position, Player.transform.position, moveSpeed * Time.deltaTime);
-                transform.position = Vector3.Lerp(transform.position, newPos, 3f);
+                transform.position = Vector3.Lerp(transform.position, newPos, 4f);
+                transform.LookAt(Player.transform);
                 //transform.Translate(PlayerLastMove, Space.Self);
             }
-
             else if (dist < MeleeMinDist)
             {
-                   
-                    //attack
+                enemyAnimator.SetBool("Moving", false);
+                enemyAnimator.SetBool("Attacking", true);
+                transform.LookAt(Player.transform);
+                //attack
             }
-                
-            foreach(GameObject e in OtherEnemy)
-            {
-
-                if (this.gameObject.GetInstanceID() == e.gameObject.GetInstanceID())
-                {
-                    //Debug.Log("we cooling bro of type 1");
-                }
-
-                else if (this.gameObject.GetInstanceID() != e.gameObject.GetInstanceID())
-                {
-                    
-                   
-                    if (distance <= MinDist)
-                    {
-                        //Debug.Log("we gotta separate bro of type 1");
-
-                        moveAway = (this.transform.position - e.transform.position).normalized;
-                        rb.velocity = -moveAway * moveSpeed;
-                    }
-
-                    else if (distance >= MaxDist)
-                    {
-                        //Debug.Log("we good bro type 1");
-                        //stand still
-                    }
-                }
-
-            }
-
         }
 
         //archer Behaviors
@@ -191,8 +164,8 @@ public class Enemies : MonoBehaviour
                     if (distance <= MinDist)
                     {
                         //Debug.Log("we gotta separate bro of type 2");
-                        moveAway = (this.transform.position - e.transform.position).normalized;
-                        rb.velocity = -moveAway * moveSpeed;
+                        //moveAway = (this.transform.position - e.transform.position).normalized;
+                        //rb.velocity = -moveAway * moveSpeed;
                         //transform.position = new Vector3(this.transform.position.x - 6, this.transform.position.y, this.transform.position.z -6);
                         //transform.position = (transform.position - e.transform.position).normalized * MaxDist + e.transform.position;
 
@@ -253,8 +226,8 @@ public class Enemies : MonoBehaviour
                     if (distance <= MinDist)
                     {
                         //Debug.Log("we gotta separate bro of type 3");
-                        moveAway = (this.transform.position - e.transform.position).normalized;
-                        rb.velocity = -moveAway * moveSpeed;
+                        //moveAway = (this.transform.position - e.transform.position).normalized;
+                        //rb.velocity = -moveAway * moveSpeed;
                         //transform.position = new Vector3(this.transform.position.x - 6, this.transform.position.y, this.transform.position.z -6);
                         //transform.position = (transform.position - e.transform.position).normalized * MaxDist + e.transform.position;
 
@@ -324,8 +297,8 @@ public class Enemies : MonoBehaviour
                     if (distance <= MinDist)
                     {
                         //Debug.Log("we gotta separate bro of type 4");
-                        moveAway = (this.transform.position - e.transform.position).normalized;
-                        rb.velocity = -moveAway * moveSpeed;
+                        //moveAway = (this.transform.position - e.transform.position).normalized;
+                        //rb.velocity = -moveAway * moveSpeed;
                         //transform.position = new Vector3(this.transform.position.x - 6, this.transform.position.y, this.transform.position.z -6);
                         //transform.position = (transform.position - e.transform.position).normalized * MaxDist + e.transform.position;
 
@@ -341,5 +314,21 @@ public class Enemies : MonoBehaviour
             }
 
         }
+    }
+
+    public void FootL()
+    {
+
+    }
+
+    public void FootR()
+    {
+
+    }
+
+    public void Hit()
+    {
+        enemyAnimator.SetBool("Attacking", false);
+        enemyAnimator.SetBool("Moving", true);
     }
 }

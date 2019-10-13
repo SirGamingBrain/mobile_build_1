@@ -14,6 +14,8 @@ public class PlayerMovment : MonoBehaviour
 
     Rigidbody rb;
 
+    public Collider sword;
+
     Animator ninja;
 
     Vector3 forwardVel;
@@ -44,6 +46,7 @@ public class PlayerMovment : MonoBehaviour
         joystick = FindObjectOfType<Joystick>();
 
         ninja = GetComponent<Animator>();
+        sword.enabled = true;
     }
 
     // Update is called once per frame
@@ -148,17 +151,24 @@ public class PlayerMovment : MonoBehaviour
 
     public void OnTriggerEnter(Collider other)
     {
-
+        if (other.CompareTag("Weapon"))
+        {
+            Debug.Log("I've been hit!");
+            health -= 1;
+            hurting = true;
+        }
     }
 
     public void Hit()
     {
+        sword.enabled = false;
         attacking = false;
         ninja.SetBool("Attacking", false);
     }
 
     public void AttackButton()
     {
+        sword.enabled = true;
         playerSounds.clip = attack;
         playerSounds.Play();
         attacking = true;

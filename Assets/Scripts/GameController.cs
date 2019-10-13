@@ -16,7 +16,6 @@ public class GameController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
         waveCounter = 1;
         StartCoroutine(waveSpawning());
     }
@@ -38,7 +37,7 @@ public class GameController : MonoBehaviour
     void WaveManagement()
     {
        
-        if (SceneManager.GetActiveScene () == SceneManager.GetSceneByName("ParisScene"))
+        if (SceneManager.GetActiveScene () == SceneManager.GetSceneByName("Level 1"))
         {
             for(int i = 0; i<spawnpoint.Length-1; i++)
             {
@@ -130,17 +129,13 @@ public class GameController : MonoBehaviour
             //Debug.Log("The next wave:" + " " + waveCounter);
             if (GameObject.FindGameObjectWithTag("Enemy") != null)
             {
-               
                 yield return true;
             }
-
             else
             {
                 yield return new WaitForSeconds(3);
                 WaveManagement();
                 waveCounter++;
-               
-               
             }
         }
            

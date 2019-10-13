@@ -10,6 +10,8 @@ TagManager:
   - Type 4
   - Enemy
   - Throwable
+  - Katana
+  - Weapon
   layers:
   - Default
   - TransparentFX
