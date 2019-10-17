@@ -26,6 +26,8 @@ public class AudioController : MonoBehaviour
     {
         masterVolume = PlayerPrefs.GetFloat("Volume");
 
+        Debug.Log("Volume Setting is at: " + masterVolume);
+
         sources = FindObjectsOfType<AudioSource>();
 
         foreach (AudioSource source in sources)

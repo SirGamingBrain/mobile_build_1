@@ -32,6 +32,7 @@ public class UIController : MonoBehaviour
     public bool changeScenesIn = true;
 
     bool continuing = false;
+    bool pause = false;
 
     public void Awake()
     {
@@ -99,11 +100,13 @@ public class UIController : MonoBehaviour
             PlayerPrefs.Save();
             settings.SetActive(false);
             Time.timeScale = 1;
+            pause = false;
         }
         else
         {
             settings.SetActive(true);
             Time.timeScale = 0;
+            pause = true;
         }
     }
 
@@ -158,6 +161,64 @@ public class UIController : MonoBehaviour
         }
 
         PlayerPrefs.SetString("Quality Level", names[qualityIndex]);
+    }
+
+    private void OnApplicationPause(bool pause)
+    {
+        if (pause)
+        {
+            Debug.Log("Not playing the game RIP.");
+            Time.timeScale = 0;
+        }
+    }
+
+    public void LoadLevel1()
+    {
+        continuing = true;
+        pause = false;
+        Time.timeScale = 1;
+        Wipe.SetActive(true);
+        PlayerPrefs.SetString("Last Level", "Level 1");
+        PlayerPrefs.Save();
+        StartCoroutine("FadeOut");
+        audioScript.StartCoroutine("FadeOut");
+    }
+
+    public void LoadLevel2()
+    {
+        continuing = true;
+        pause = false;
+        Time.timeScale = 1;
+        Wipe.SetActive(true);
+        PlayerPrefs.SetString("Last Level", "Level 2");
+        PlayerPrefs.Save();
+        StartCoroutine("FadeOut");
+        audioScript.StartCoroutine("FadeOut");
+    }
+
+    public void LoadLevel3()
+    {
+        continuing = true;
+        pause = false;
+        Time.timeScale = 1;
+        Wipe.SetActive(true);
+        PlayerPrefs.SetString("Last Level", "Level 3");
+        PlayerPrefs.Save();
+        StartCoroutine("FadeOut");
+        audioScript.StartCoroutine("FadeOut");
+    }
+
+    public void LoadLevel4()
+    {
+        continuing = true;
+        pause = false;
+        Time.timeScale = 1;
+        Wipe.SetActive(true);
+        PlayerPrefs.SetString("Last Level", "Level 4");
+        PlayerPrefs.Save();
+        StartCoroutine("FadeOut");
+        audioScript.StartCoroutine("FadeOut");
+
     }
 
     IEnumerator FadeOut()

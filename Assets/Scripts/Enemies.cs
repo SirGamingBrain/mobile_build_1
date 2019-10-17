@@ -135,7 +135,7 @@ public class Enemies : MonoBehaviour
                 enemyAnimator.SetBool("Attacking", false);
                 //Vector3 PlayerLastMove = Player.transform.position;
                 //Debug.Log(PlayerLastMove + " last store move");
-                Vector3 newPos = Vector3.MoveTowards(transform.position, Player.transform.position, 4f * Time.deltaTime);
+                Vector3 newPos = Vector3.MoveTowards(transform.position, Player.transform.position, 3f * Time.deltaTime);
                 transform.position = Vector3.Lerp(transform.position, newPos, 3f);
                 transform.LookAt(Player.transform);
                 //transform.Translate(PlayerLastMove, Space.Self);
