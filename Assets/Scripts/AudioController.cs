@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class AudioController : MonoBehaviour
 {
@@ -31,12 +32,30 @@ public class AudioController : MonoBehaviour
         {
             if (source.name == "Background Music")
             {
-                source.volume = masterVolume/100;
+                source.volume = masterVolume/150;
                 Debug.Log("We have identified the background music!");
+            }
+            else if (source.name == "Crowd")
+            {
+                if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Level 1"))
+                {
+                    source.volume = masterVolume / 175;
+                }
+                else if(SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Level 2") || SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Level 4"))
+                {
+                    source.volume = masterVolume / 225;
+                }
+                else
+                {
+                    source.volume = 0;
+                }
+
+                Debug.Log("We have identified the crowd's audio!");
             }
             else
             {
                 source.volume = masterVolume / 100;
+                Debug.Log("Setting all other sources to the max!");
             }
         }
 
@@ -82,11 +101,27 @@ public class AudioController : MonoBehaviour
         {
             if (source.name == "Background Music")
             {
-                source.volume = masterVolume/100;
+                source.volume = masterVolume / 150;
+            }
+            else if (source.name == "Crowd")
+            {
+                if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Level 1"))
+                {
+                    source.volume = masterVolume / 175;
+                }
+                else if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Level 2") || SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Level 4"))
+                {
+                    source.volume = masterVolume / 225;
+                }
+                else
+                {
+                    source.volume = 0;
+                }
             }
             else
             {
-                source.volume = masterVolume/100;
+                source.volume = masterVolume / 100;
+                Debug.Log("Setting all other sources to the max!");
             }
         }
     }

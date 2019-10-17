@@ -98,10 +98,12 @@ public class UIController : MonoBehaviour
         {
             PlayerPrefs.Save();
             settings.SetActive(false);
+            Time.timeScale = 1;
         }
         else
         {
             settings.SetActive(true);
+            Time.timeScale = 0;
         }
     }
 

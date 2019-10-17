@@ -37,7 +37,7 @@ public class GameController : MonoBehaviour
     void WaveManagement()
     {
        
-        if (SceneManager.GetActiveScene () == SceneManager.GetSceneByName("Level 1"))
+        if (SceneManager.GetActiveScene () == SceneManager.GetSceneByName("Level 1") || SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Level 2") || SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Level 3") || SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Level 4"))
         {
             for(int i = 0; i<spawnpoint.Length-1; i++)
             {
@@ -57,7 +57,7 @@ public class GameController : MonoBehaviour
 
         }
 
-        if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Level 2"))
+        /*if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Level 2"))
         {
             for (int i = 0; i < spawnpoint.Length - 1; i++)
             {
@@ -113,7 +113,7 @@ public class GameController : MonoBehaviour
             }
             //Debug.Log("This is Wave:" + " " + waveCounter);
 
-        }
+        }*/
 
     }
 
