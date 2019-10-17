@@ -87,10 +87,10 @@ public class PlayerMovment : MonoBehaviour
             xSpeed = joystick.Horizontal * 5f;
             zSpeed = joystick.Vertical * 5f;
 
-            /*if (dCenter <= 2f)
+            if (dCenter <= 2f)
             {
                 zSpeed = 0f;
-            }*/
+            }
         }
         else
         {
@@ -140,6 +140,13 @@ public class PlayerMovment : MonoBehaviour
         {
             rb.velocity = (transform.forward * 7.5f);
         }
+
+        if (hurting == true)
+        {
+            playerSounds.clip = ouch;
+            playerSounds.Play();
+            ninja.SetBool("Hurt", true);
+        }
     }
 
     public void OnTriggerEnter(Collider other)
@@ -149,15 +156,7 @@ public class PlayerMovment : MonoBehaviour
             Debug.Log("I've been hit!");
             health -= 1;
             hurting = true;
-            playerSounds.clip = ouch;
-            playerSounds.Play();
-            ninja.SetBool("Hurt", true);
         }
-    }
-
-    public void AttackEnd()
-    {
-        attacking = false;
     }
 
     public void Hit()
@@ -169,13 +168,11 @@ public class PlayerMovment : MonoBehaviour
 
     public void AttackButton()
     {
-        if (!ninja.GetBool("Attacking") && attacking == false) {
-            sword.enabled = true;
-            playerSounds.clip = attack;
-            playerSounds.Play();
-            attacking = true;
-            ninja.SetBool("Attacking", true);
-        }
+        sword.enabled = true;
+        playerSounds.clip = attack;
+        playerSounds.Play();
+        attacking = true;
+        ninja.SetBool("Attacking", true);
     }
 
     public void Block()

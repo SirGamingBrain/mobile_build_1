@@ -1,406 +1,141 @@
 fileFormatVersion: 2
 guid: 41b9ff5f023558146b670c3fdfaabb60
+timeCreated: 1565850226
+licenseType: Store
 ModelImporter:
-  serializedVersion: 26
-  internalIDToNameTable:
-  - first:
-      1: 100000
-    second: Bip01
-  - first:
-      1: 100002
-    second: Bip01 Head
-  - first:
-      1: 100004
-    second: Bip01 L Calf
-  - first:
-      1: 100006
-    second: Bip01 L Clavicle
-  - first:
-      1: 100008
-    second: Bip01 L Finger0
-  - first:
-      1: 100010
-    second: Bip01 L Foot
-  - first:
-      1: 100012
-    second: Bip01 L Forearm
-  - first:
-      1: 100014
-    second: Bip01 L Hand
-  - first:
-      1: 100016
-    second: Bip01 L HorseLink
-  - first:
-      1: 100018
-    second: Bip01 L Thigh
-  - first:
-      1: 100020
-    second: Bip01 L Toe0
-  - first:
-      1: 100022
-    second: Bip01 L UpperArm
-  - first:
-      1: 100024
-    second: Bip01 Neck
-  - first:
-      1: 100026
-    second: Bip01 Neck1
-  - first:
-      1: 100028
-    second: Bip01 Pelvis
-  - first:
-      1: 100030
-    second: Bip01 R Calf
-  - first:
-      1: 100032
-    second: Bip01 R Clavicle
-  - first:
-      1: 100034
-    second: Bip01 R Finger0
-  - first:
-      1: 100036
-    second: Bip01 R Foot
-  - first:
-      1: 100038
-    second: Bip01 R Forearm
-  - first:
-      1: 100040
-    second: Bip01 R Hand
-  - first:
-      1: 100042
-    second: Bip01 R HorseLink
-  - first:
-      1: 100044
-    second: Bip01 R Thigh
-  - first:
-      1: 100046
-    second: Bip01 R Toe0
-  - first:
-      1: 100048
-    second: Bip01 R UpperArm
-  - first:
-      1: 100050
-    second: Bip01 Spine
-  - first:
-      1: 100052
-    second: Bip01 Spine1
-  - first:
-      1: 100054
-    second: Bip01 Tail
-  - first:
-      1: 100056
-    second: Bip02
-  - first:
-      1: 100058
-    second: Bip02 Head
-  - first:
-      1: 100060
-    second: Bip02 L Calf
-  - first:
-      1: 100062
-    second: Bip02 L Clavicle
-  - first:
-      1: 100064
-    second: Bip02 L Foot
-  - first:
-      1: 100066
-    second: Bip02 L Forearm
-  - first:
-      1: 100068
-    second: Bip02 L Hand
-  - first:
-      1: 100070
-    second: Bip02 L Thigh
-  - first:
-      1: 100072
-    second: Bip02 L Toe0
-  - first:
-      1: 100074
-    second: Bip02 L UpperArm
-  - first:
-      1: 100076
-    second: Bip02 Neck
-  - first:
-      1: 100078
-    second: Bip02 Pelvis
-  - first:
-      1: 100080
-    second: Bip02 Prop1
-  - first:
-      1: 100082
-    second: Bip02 R Calf
-  - first:
-      1: 100084
-    second: Bip02 R Clavicle
-  - first:
-      1: 100086
-    second: Bip02 R Foot
-  - first:
-      1: 100088
-    second: Bip02 R Forearm
-  - first:
-      1: 100090
-    second: Bip02 R Hand
-  - first:
-      1: 100092
-    second: Bip02 R Thigh
-  - first:
-      1: 100094
-    second: Bip02 R Toe0
-  - first:
-      1: 100096
-    second: Bip02 R UpperArm
-  - first:
-      1: 100098
-    second: Bip02 Spine
-  - first:
-      1: 100100
-    second: Bip02 Spine1
-  - first:
-      1: 100102
-    second: Bone002
-  - first:
-      1: 100104
-    second: Bone003
-  - first:
-      1: 100106
-    second: Bone01
-  - first:
-      1: 100108
-    second: u17
-  - first:
-      1: 100110
-    second: wangbanqibing
-  - first:
-      1: 100112
-    second: //RootNode
-  - first:
-      1: 100114
-    second: wangbanqibing@Skinpose
-  - first:
-      1: 100116
-    second: wangbanqibing_0
-  - first:
-      4: 400000
-    second: Bip01
-  - first:
-      4: 400002
-    second: Bip01 Head
-  - first:
-      4: 400004
-    second: Bip01 L Calf
-  - first:
-      4: 400006
-    second: Bip01 L Clavicle
-  - first:
-      4: 400008
-    second: Bip01 L Finger0
-  - first:
-      4: 400010
-    second: Bip01 L Foot
-  - first:
-      4: 400012
-    second: Bip01 L Forearm
-  - first:
-      4: 400014
-    second: Bip01 L Hand
-  - first:
-      4: 400016
-    second: Bip01 L HorseLink
-  - first:
-      4: 400018
-    second: Bip01 L Thigh
-  - first:
-      4: 400020
-    second: Bip01 L Toe0
-  - first:
-      4: 400022
-    second: Bip01 L UpperArm
-  - first:
-      4: 400024
-    second: Bip01 Neck
-  - first:
-      4: 400026
-    second: Bip01 Neck1
-  - first:
-      4: 400028
-    second: Bip01 Pelvis
-  - first:
-      4: 400030
-    second: Bip01 R Calf
-  - first:
-      4: 400032
-    second: Bip01 R Clavicle
-  - first:
-      4: 400034
-    second: Bip01 R Finger0
-  - first:
-      4: 400036
-    second: Bip01 R Foot
-  - first:
-      4: 400038
-    second: Bip01 R Forearm
-  - first:
-      4: 400040
-    second: Bip01 R Hand
-  - first:
-      4: 400042
-    second: Bip01 R HorseLink
-  - first:
-      4: 400044
-    second: Bip01 R Thigh
-  - first:
-      4: 400046
-    second: Bip01 R Toe0
-  - first:
-      4: 400048
-    second: Bip01 R UpperArm
-  - first:
-      4: 400050
-    second: Bip01 Spine
-  - first:
-      4: 400052
-    second: Bip01 Spine1
-  - first:
-      4: 400054
-    second: Bip01 Tail
-  - first:
-      4: 400056
-    second: Bip02
-  - first:
-      4: 400058
-    second: Bip02 Head
-  - first:
-      4: 400060
-    second: Bip02 L Calf
-  - first:
-      4: 400062
-    second: Bip02 L Clavicle
-  - first:
-      4: 400064
-    second: Bip02 L Foot
-  - first:
-      4: 400066
-    second: Bip02 L Forearm
-  - first:
-      4: 400068
-    second: Bip02 L Hand
-  - first:
-      4: 400070
-    second: Bip02 L Thigh
-  - first:
-      4: 400072
-    second: Bip02 L Toe0
-  - first:
-      4: 400074
-    second: Bip02 L UpperArm
-  - first:
-      4: 400076
-    second: Bip02 Neck
-  - first:
-      4: 400078
-    second: Bip02 Pelvis
-  - first:
-      4: 400080
-    second: Bip02 Prop1
-  - first:
-      4: 400082
-    second: Bip02 R Calf
-  - first:
-      4: 400084
-    second: Bip02 R Clavicle
-  - first:
-      4: 400086
-    second: Bip02 R Foot
-  - first:
-      4: 400088
-    second: Bip02 R Forearm
-  - first:
-      4: 400090
-    second: Bip02 R Hand
-  - first:
-      4: 400092
-    second: Bip02 R Thigh
-  - first:
-      4: 400094
-    second: Bip02 R Toe0
-  - first:
-      4: 400096
-    second: Bip02 R UpperArm
-  - first:
-      4: 400098
-    second: Bip02 Spine
-  - first:
-      4: 400100
-    second: Bip02 Spine1
-  - first:
-      4: 400102
-    second: Bone002
-  - first:
-      4: 400104
-    second: Bone003
-  - first:
-      4: 400106
-    second: Bone01
-  - first:
-      4: 400108
-    second: u17
-  - first:
-      4: 400110
-    second: wangbanqibing
-  - first:
-      4: 400112
-    second: wangbanqibing@Skinpose
-  - first:
-      4: 400114
-    second: //RootNode
-  - first:
-      4: 400116
-    second: wangbanqibing_0
-  - first:
-      43: 4300000
-    second: wangbanqibing_0
-  - first:
-      74: 7400000
-    second: Attack
-  - first:
-      74: 7400002
-    second: Defense
-  - first:
-      74: 7400004
-    second: Die
-  - first:
-      74: 7400006
-    second: Idle
-  - first:
-      74: 7400008
-    second: Idle02
-  - first:
-      74: 7400010
-    second: Run
-  - first:
-      95: 9500000
-    second: //RootNode
-  - first:
-      137: 13700000
-    second: wangbanqibing_0
-  - first:
-      74: 309098450945915473
-    second: Die (1)
-  - first:
-      74: 2450780417096620964
-    second: Run (1)
-  externalObjects:
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: wangbanqibing
-    second: {fileID: 2100000, guid: f0d5cdfed5289974695672bb4c88a974, type: 2}
+  serializedVersion: 21
+  fileIDToRecycleName:
+    100000: Bip01
+    100002: Bip01 Head
+    100004: Bip01 L Calf
+    100006: Bip01 L Clavicle
+    100008: Bip01 L Finger0
+    100010: Bip01 L Foot
+    100012: Bip01 L Forearm
+    100014: Bip01 L Hand
+    100016: Bip01 L HorseLink
+    100018: Bip01 L Thigh
+    100020: Bip01 L Toe0
+    100022: Bip01 L UpperArm
+    100024: Bip01 Neck
+    100026: Bip01 Neck1
+    100028: Bip01 Pelvis
+    100030: Bip01 R Calf
+    100032: Bip01 R Clavicle
+    100034: Bip01 R Finger0
+    100036: Bip01 R Foot
+    100038: Bip01 R Forearm
+    100040: Bip01 R Hand
+    100042: Bip01 R HorseLink
+    100044: Bip01 R Thigh
+    100046: Bip01 R Toe0
+    100048: Bip01 R UpperArm
+    100050: Bip01 Spine
+    100052: Bip01 Spine1
+    100054: Bip01 Tail
+    100056: Bip02
+    100058: Bip02 Head
+    100060: Bip02 L Calf
+    100062: Bip02 L Clavicle
+    100064: Bip02 L Foot
+    100066: Bip02 L Forearm
+    100068: Bip02 L Hand
+    100070: Bip02 L Thigh
+    100072: Bip02 L Toe0
+    100074: Bip02 L UpperArm
+    100076: Bip02 Neck
+    100078: Bip02 Pelvis
+    100080: Bip02 Prop1
+    100082: Bip02 R Calf
+    100084: Bip02 R Clavicle
+    100086: Bip02 R Foot
+    100088: Bip02 R Forearm
+    100090: Bip02 R Hand
+    100092: Bip02 R Thigh
+    100094: Bip02 R Toe0
+    100096: Bip02 R UpperArm
+    100098: Bip02 Spine
+    100100: Bip02 Spine1
+    100102: Bone002
+    100104: Bone003
+    100106: Bone01
+    100108: u17
+    100110: wangbanqibing
+    100112: //RootNode
+    100114: wangbanqibing@Skinpose
+    100116: wangbanqibing_0
+    400000: Bip01
+    400002: Bip01 Head
+    400004: Bip01 L Calf
+    400006: Bip01 L Clavicle
+    400008: Bip01 L Finger0
+    400010: Bip01 L Foot
+    400012: Bip01 L Forearm
+    400014: Bip01 L Hand
+    400016: Bip01 L HorseLink
+    400018: Bip01 L Thigh
+    400020: Bip01 L Toe0
+    400022: Bip01 L UpperArm
+    400024: Bip01 Neck
+    400026: Bip01 Neck1
+    400028: Bip01 Pelvis
+    400030: Bip01 R Calf
+    400032: Bip01 R Clavicle
+    400034: Bip01 R Finger0
+    400036: Bip01 R Foot
+    400038: Bip01 R Forearm
+    400040: Bip01 R Hand
+    400042: Bip01 R HorseLink
+    400044: Bip01 R Thigh
+    400046: Bip01 R Toe0
+    400048: Bip01 R UpperArm
+    400050: Bip01 Spine
+    400052: Bip01 Spine1
+    400054: Bip01 Tail
+    400056: Bip02
+    400058: Bip02 Head
+    400060: Bip02 L Calf
+    400062: Bip02 L Clavicle
+    400064: Bip02 L Foot
+    400066: Bip02 L Forearm
+    400068: Bip02 L Hand
+    400070: Bip02 L Thigh
+    400072: Bip02 L Toe0
+    400074: Bip02 L UpperArm
+    400076: Bip02 Neck
+    400078: Bip02 Pelvis
+    400080: Bip02 Prop1
+    400082: Bip02 R Calf
+    400084: Bip02 R Clavicle
+    400086: Bip02 R Foot
+    400088: Bip02 R Forearm
+    400090: Bip02 R Hand
+    400092: Bip02 R Thigh
+    400094: Bip02 R Toe0
+    400096: Bip02 R UpperArm
+    400098: Bip02 Spine
+    400100: Bip02 Spine1
+    400102: Bone002
+    400104: Bone003
+    400106: Bone01
+    400108: u17
+    400110: wangbanqibing
+    400112: wangbanqibing@Skinpose
+    400114: //RootNode
+    400116: wangbanqibing_0
+    4300000: wangbanqibing_0
+    7400000: Attack
+    7400002: Defense
+    7400004: Die
+    7400006: Idle
+    7400008: Idle02
+    7400010: Run
+    9500000: //RootNode
+    13700000: wangbanqibing_0
   materials:
     importMaterials: 1
     materialName: 0
     materialSearch: 1
-    materialLocation: 0
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
@@ -413,8 +148,6 @@ ModelImporter:
     animationImportWarnings: 
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
-    importAnimatedCustomProperties: 0
-    importConstraints: 0
     animationCompression: 1
     animationRotationError: 0.5
     animationPositionError: 0.5
@@ -426,7 +159,6 @@ ModelImporter:
     - serializedVersion: 16
       name: Attack
       takeName: Attack
-      internalID: 0
       firstFrame: 0
       lastFrame: 39
       wrapMode: 0
@@ -447,21 +179,7 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events:
-      - time: 0.591585
-        functionName: Throw
-        data: 
-        objectReferenceParameter: {instanceID: 0}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
-      - time: 1
-        functionName: RunningEnd
-        data: 
-        objectReferenceParameter: {instanceID: 0}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
+      events: []
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
@@ -469,7 +187,6 @@ ModelImporter:
     - serializedVersion: 16
       name: Defense
       takeName: Defense
-      internalID: 0
       firstFrame: 0
       lastFrame: 39
       wrapMode: 0
@@ -498,7 +215,6 @@ ModelImporter:
     - serializedVersion: 16
       name: Die
       takeName: Die
-      internalID: 0
       firstFrame: 0
       lastFrame: 46
       wrapMode: 0
@@ -527,7 +243,6 @@ ModelImporter:
     - serializedVersion: 16
       name: Idle
       takeName: Idle
-      internalID: 0
       firstFrame: 0
       lastFrame: 46
       wrapMode: 0
@@ -556,7 +271,6 @@ ModelImporter:
     - serializedVersion: 16
       name: Idle02
       takeName: Idle02
-      internalID: 0
       firstFrame: 0
       lastFrame: 111
       wrapMode: 0
@@ -585,7 +299,6 @@ ModelImporter:
     - serializedVersion: 16
       name: Run
       takeName: Run
-      internalID: 0
       firstFrame: 0
       lastFrame: 111
       wrapMode: 0
@@ -617,8 +330,6 @@ ModelImporter:
     globalScale: 1
     meshCompression: 0
     addColliders: 0
-    useSRGBMaterialColor: 1
-    sortHierarchyByName: 1
     importVisibility: 0
     importBlendShapes: 1
     importCameras: 0
@@ -626,14 +337,9 @@ ModelImporter:
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
+    optimizeMeshForGPU: 1
     keepQuads: 0
     weldVertices: 1
-    preserveHierarchy: 0
-    skinWeightsMode: 0
-    maxBonesPerVertex: 4
-    minBoneWeight: 0.001
-    meshOptimizationFlags: -1
-    indexFormat: 1
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
@@ -644,14 +350,10 @@ ModelImporter:
     normalImportMode: 0
     tangentImportMode: 3
     normalCalculationMode: 0
-    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 1
-    blendShapeNormalImportMode: 1
-    normalSmoothingSource: 0
-  referencedClips: []
   importAnimation: 1
   copyAvatar: 0
   humanDescription:
-    serializedVersion: 3
+    serializedVersion: 2
     human: []
     skeleton: []
     armTwist: 0.5
@@ -661,8 +363,8 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
-    globalScale: 1
     rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
     hasTranslationDoF: 0
     hasExtraRoot: 0
     skeletonHasParents: 1
