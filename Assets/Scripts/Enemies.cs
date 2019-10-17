@@ -11,10 +11,14 @@ public class Enemies : MonoBehaviour
 
     [SerializeField]
     GameObject throwable;
+
+    Collider hitbox;
     
     GameObject [] OtherEnemy;
 
     Transform[] PlayerPos;
+
+    public GameObject weaponSpawn;
 
     Rigidbody rb;
 
@@ -36,15 +40,17 @@ public class Enemies : MonoBehaviour
     float distance =  10;
     float UpdatePos;
     float BackPeddle = 1.5f;
-    float ArcherRate = 1f;
+    float ArcherRate = 2.5f;
     float ThrowerRate = .5f;
     float nextShot;
+    float deathTimer = 0f;
 
     Vector3 lastPos;
     Vector3 PlayerLastMove;
     Vector3 moveAway;
 
     bool isallowed;
+    bool isDead;
     
 
     // Start is called before the first frame update
@@ -57,11 +63,23 @@ public class Enemies : MonoBehaviour
         PlayerLastMove = new Vector3(Player.transform.position.x, Player.transform.position.y, Player.transform.position.z);
         nextShot = Time.deltaTime;
         enemyAnimator = this.GetComponent<Animator>();
+        weaponSpawn = GameObject.Find("Bip02 R Hand");
+        hitbox = GetComponent<Collider>();
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
+
+        if (isDead)
+        {
+            deathTimer += Time.deltaTime;
+
+            if (deathTimer > 3f)
+            {
+                Destroy(gameObject);
+            }
+        }
 
         foreach (GameObject enemy in OtherEnemy)
         {
@@ -89,7 +107,9 @@ public class Enemies : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Katana"))
         {
-            Destroy(gameObject);
+            hitbox.enabled = false;
+            enemyAnimator.SetBool("Dead", true);
+            isDead = true;
         }
     }
 
@@ -102,18 +122,18 @@ public class Enemies : MonoBehaviour
         {
             dist = Vector3.Distance(transform.position, Player.transform.position);
 
-            if (dist > MeleeMinDist)
+            if (dist > MeleeMinDist && !isDead)
             {
                 enemyAnimator.SetBool("Moving", true);
                 enemyAnimator.SetBool("Attacking", false);
                 //Vector3 PlayerLastMove = Player.transform.position;
                 //Debug.Log(PlayerLastMove + " last store move");
-                Vector3 newPos = Vector3.MoveTowards(transform.position, Player.transform.position, moveSpeed * Time.deltaTime);
+                Vector3 newPos = Vector3.MoveTowards(transform.position, Player.transform.position, 4f * Time.deltaTime);
                 transform.position = Vector3.Lerp(transform.position, newPos, 4f);
                 transform.LookAt(Player.transform);
                 //transform.Translate(PlayerLastMove, Space.Self);
             }
-            else if (dist < MeleeMinDist)
+            else if (dist < MeleeMinDist && !isDead)
             {
                 enemyAnimator.SetBool("Moving", false);
                 enemyAnimator.SetBool("Attacking", true);
@@ -123,33 +143,35 @@ public class Enemies : MonoBehaviour
         }
 
         //archer Behaviors
-        if (gameObject.name == "Enemy Type 2(Clone)")
+        if (gameObject.name == "Enemy Type 2(Clone)" && !isDead)
         {
            
                 dist = Vector3.Distance(transform.position, Player.transform.position);
-                if (dist > ArcherMaxDist)
+                
+                if (dist <= ArcherMinDist && !isDead)
+                {
+                transform.LookAt(Player.transform.position);
+                enemyAnimator.SetBool("Running", false);
+                transform.position -= transform.forward* BackPeddle * Time.deltaTime;
+                }
+                else if (dist < ArcherMaxDist && dist > ArcherMinDist && !isDead)
+                {
+                enemyAnimator.SetBool("Running", false);
+                //attack 2 
+                nextShot += Time.deltaTime;
+                if (nextShot >= ArcherRate && !isDead)
                 {
                     transform.LookAt(Player.transform.position);
-                    transform.position = Vector3.MoveTowards(transform.position, Player.transform.position, moveSpeed * Time.deltaTime);
-
-                }
-                else if (dist <= ArcherMinDist)
-                {
-                    
-                    transform.position -= transform.forward* BackPeddle * Time.deltaTime;
-                    
-                }
-                else if (dist < ArcherMaxDist && dist > ArcherMinDist)
-                {
-                   //attack 2 
-                nextShot += Time.deltaTime;
-                if (nextShot >= ArcherRate)
-                {
-                    Instantiate(throwable, transform.position, Quaternion.identity);
-                    nextShot = 0;
+                    enemyAnimator.SetBool("Attacking", true);
                 }
  
                 }
+                else if (dist > ArcherMaxDist && !isDead)
+                {
+                    enemyAnimator.SetBool("Running", true);
+                    transform.LookAt(Player.transform.position);
+                    transform.position = Vector3.MoveTowards(transform.position, Player.transform.position, moveSpeed * Time.deltaTime);
+            }
 
             foreach (GameObject e in OtherEnemy)
             {
@@ -314,6 +336,23 @@ public class Enemies : MonoBehaviour
             }
 
         }
+    }
+
+    public void Throw()
+    {
+        enemyAnimator.SetBool("Attacking", false);
+
+        var direction = weaponSpawn.transform.position - Player.transform.position;
+        Quaternion facing1 = Quaternion.LookRotation(transform.forward, direction);
+        Quaternion facing2 = weaponSpawn.transform.rotation;
+        var facing = facing2 * facing1;
+        Instantiate(throwable, weaponSpawn.transform.position, facing);
+        nextShot = 0;
+    }
+
+    public void RunningEnd()
+    {
+        enemyAnimator.SetBool("Running", false);
     }
 
     public void FootL()
