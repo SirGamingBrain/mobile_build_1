@@ -46,7 +46,7 @@ public class PlayerMovment : MonoBehaviour
         joystick = FindObjectOfType<Joystick>();
 
         ninja = GetComponent<Animator>();
-        sword.enabled = false;
+        sword.enabled = true;
     }
 
     // Update is called once per frame
