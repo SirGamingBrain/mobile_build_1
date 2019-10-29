@@ -16,7 +16,7 @@ public class Enemies : MonoBehaviour
     
     GameObject [] OtherEnemy;
 
-    Transform[] PlayerPos;
+    readonly Transform[] PlayerPos;
 
     public GameObject weaponSpawn;
     Collider fistBox;
@@ -25,24 +25,24 @@ public class Enemies : MonoBehaviour
 
     Animator enemyAnimator;
 
-    int moveSpeed = 3;
-    int maxspeed = 5;
+    readonly int moveSpeed = 3;
+    readonly int maxspeed = 5;
    
-    int MaxDist = 6;
-    int MinDist = 2;
-    int MeleeMinDist = 1;
-    int MeleeMaxDist = 6;
-    int ArcherMinDist = 5;
-    int ArcherMaxDist = 10;
-    int ThrowerMaxDist = 4;
-    int ThrowerMinDist = 2;
+    readonly int MaxDist = 6;
+    readonly int MinDist = 2;
+    readonly int MeleeMinDist = 1;
+    readonly int MeleeMaxDist = 6;
+    readonly int ArcherMinDist = 5;
+    readonly int ArcherMaxDist = 10;
+    readonly int ThrowerMaxDist = 4;
+    readonly int ThrowerMinDist = 2;
 
     //float force = 5f;
     float distance =  10;
     float UpdatePos;
-    float BackPeddle = 1.5f;
-    float ArcherRate = 2.5f;
-    float ThrowerRate = .5f;
+    readonly float BackPeddle = 1.5f;
+    readonly float ArcherRate = 2.5f;
+    readonly float ThrowerRate = .5f;
     float nextShot;
     float deathTimer = 0f;
 
@@ -50,7 +50,7 @@ public class Enemies : MonoBehaviour
     Vector3 PlayerLastMove;
     Vector3 moveAway;
 
-    bool isallowed;
+    readonly bool isallowed;
     bool isDead;
     
 
@@ -114,7 +114,15 @@ public class Enemies : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Katana"))
         {
-            hitbox.enabled = false;
+            if (gameObject.name == "Enemy Type 2(Clone)")
+            {
+                //hitbox.isTrigger = true;
+            }
+            else
+            {
+                hitbox.enabled = false;
+            }
+            
             enemyAnimator.SetBool("Dead", true);
             isDead = true;
         }
@@ -124,8 +132,9 @@ public class Enemies : MonoBehaviour
     {
         float dist;
        // handles moving towards the player for each type of enemy so we can have different animations and sound tied to the different types
-       //Melee Behaviors
-        if (gameObject.name == "Enemy Type 1(Clone)")
+
+       //Peasant Melee Behaviors
+        if (gameObject.name == "Enemy Type 1(Clone)" && !isDead)
         {
             dist = Vector3.Distance(transform.position, Player.transform.position);
 
@@ -149,8 +158,12 @@ public class Enemies : MonoBehaviour
                 //attack
             }
         }
+        else
+        {
+            transform.position = this.transform.position;
+        }
 
-        //archer Behaviors
+        //Spear Thrower Behaviors
         if (gameObject.name == "Enemy Type 2(Clone)" && !isDead)
         {
            
@@ -181,6 +194,7 @@ public class Enemies : MonoBehaviour
                     transform.position = Vector3.MoveTowards(transform.position, Player.transform.position, moveSpeed * Time.deltaTime);
             }
 
+
             foreach (GameObject e in OtherEnemy)
             {
                 if (this.gameObject.GetInstanceID() == e.gameObject.GetInstanceID())
@@ -204,16 +218,15 @@ public class Enemies : MonoBehaviour
                     {
                         //stand still
                     }
-
-
-
                 }
             }
-            
-
+        }
+        else
+        {
+            transform.position = this.transform.position;
         }
 
-        //thrower
+        //F
         if (gameObject.name == "Enemy Type 3(Clone)")
         {
 
@@ -276,6 +289,7 @@ public class Enemies : MonoBehaviour
 
         }
 
+        //F
         if (gameObject.name == "Enemy Type 4(Clone)")
         {
 
@@ -373,5 +387,10 @@ public class Enemies : MonoBehaviour
         enemyAnimator.SetBool("Attacking", false);
         fistBox.enabled = false;
         //enemyAnimator.SetBool("Moving", true);
+    }
+
+    public void DeathOver()
+    {
+
     }
 }

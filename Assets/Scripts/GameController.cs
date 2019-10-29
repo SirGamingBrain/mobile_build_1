@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 using UnityEngine;
 
 public class GameController : MonoBehaviour
@@ -10,14 +11,16 @@ public class GameController : MonoBehaviour
     public GameObject[] Enemies = new GameObject[4];
     public Transform[] spawnpoint = new Transform[3];
 
+    public bool wavesComplete = false;
+
     int waveCounter = 0;
-    int Enemycounter;
+    readonly int Enemycounter;
 
     // Start is called before the first frame update
     void Start()
     {
         waveCounter = 1;
-        StartCoroutine(waveSpawning());
+        StartCoroutine(WaveSpawning());
     }
 
     // Update is called once per frame
@@ -27,101 +30,233 @@ public class GameController : MonoBehaviour
 
         if (waveCounter == 5 && GameObject.FindGameObjectWithTag("Enemy") == null)
         {
-            StopCoroutine(waveSpawning());
-            Debug.Log("onto next level");
+            StopCoroutine(WaveSpawning());
+            wavesComplete = true;
+            Debug.Log("Onto the next level.");
         }
 
-        //check to see if all the enmies have been killed and then increase the coutner
+        //check to see if all the enmies have been killed and then increase the counter.
     }
 
     void WaveManagement()
     {
-       
-        if (SceneManager.GetActiveScene () == SceneManager.GetSceneByName("Level 1") || SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Level 2") || SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Level 3") || SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Level 4"))
+        if (SceneManager.GetActiveScene () == SceneManager.GetSceneByName("Level 1") )
         {
-            for(int i = 0; i<spawnpoint.Length-1; i++)
+            if (waveCounter == 1 || waveCounter == 0)
             {
-                Instantiate(Enemies[0], spawnpoint[i].position, spawnpoint[i].rotation);
-                //spawn an enemy
-                //Debug.Log("this the spawnpoints"+ " " + spawnpoint[i]);
-                if (spawnpoint[i] == spawnpoint[1])
+                Instantiate(Enemies[0], spawnpoint[2].position, spawnpoint[2].rotation);
+            }
+            else if (waveCounter == 2)
+            {
+                for(int i = 0; i < spawnpoint.Length; i++)
                 {
-                    i++;
-                    //Debug.Log(spawnpoint[i]);
-                    //spawn stronger enemy
-                    Instantiate(Enemies[1], spawnpoint[i].position, spawnpoint[i].rotation);
-
+                    if (i == 0 || i == 2)
+                    {
+                        Instantiate(Enemies[0], spawnpoint[i].position, spawnpoint[i].rotation);
+                    }
                 }
             }
-            //Debug.Log("This is Wave:" + " " + waveCounter);
+            else if (waveCounter == 3)
+            {
+                for (int i = 0; i < spawnpoint.Length; i++)
+                {
+                    Instantiate(Enemies[0], spawnpoint[i].position, spawnpoint[i].rotation);
+                }
+            }
+            else if (waveCounter == 4)
+            {
+                for (int i = 0; i < spawnpoint.Length; i++)
+                {
+                    if (i == 3)
+                    {
+                        Instantiate(Enemies[1], spawnpoint[i].position, spawnpoint[i].rotation);
+                    }
+                }
+            }
+            else if (waveCounter == 5)
+            {
+                for (int i = 0; i < spawnpoint.Length; i++)
+                {
+                    if (i == 3)
+                    {
+                        Instantiate(Enemies[1], spawnpoint[i].position, spawnpoint[i].rotation);
+                    }
+                    else if (i == 2)
+                    {
+                        Instantiate(Enemies[1], spawnpoint[i].position, spawnpoint[i].rotation);
+                    }
+                }
+            }
 
+            Debug.Log("This is Wave:" + " " + waveCounter);
         }
 
-        /*if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Level 2"))
+        if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Level 2"))
         {
-            for (int i = 0; i < spawnpoint.Length - 1; i++)
+            if (waveCounter == 1 || waveCounter == 0)
             {
-                Instantiate(Enemies[1], spawnpoint[i].position, spawnpoint[i].rotation);
-                //spawn an enemy
-                //Debug.Log("this the spawnpoints" + " " + spawnpoint[i]);
-                if (spawnpoint[i] == spawnpoint[1])
+                Instantiate(Enemies[1], spawnpoint[0].position, spawnpoint[0].rotation);
+                Instantiate(Enemies[1], spawnpoint[2].position, spawnpoint[2].rotation);
+            }
+            else if (waveCounter == 2)
+            {
+                for (int i = 0; i < spawnpoint.Length; i++)
                 {
-                    i++;
-                    //Debug.Log(spawnpoint[i]);
-                    //spawn stronger enemy
-                    Instantiate(Enemies[2], spawnpoint[i].position, spawnpoint[i].rotation);
-
+                    if (i == 3)
+                    {
+                        Instantiate(Enemies[0], spawnpoint[i].position, spawnpoint[i].rotation);
+                    }
+                    else
+                    {
+                        Instantiate(Enemies[1], spawnpoint[i].position, spawnpoint[i].rotation);
+                    }
                 }
             }
-            //Debug.Log("This is Wave:" + " " + waveCounter);
+            else if (waveCounter == 3)
+            {
+                for (int i = 0; i < spawnpoint.Length; i++)
+                {
+                    if (i == 3)
+                    {
+                        Instantiate(Enemies[1], spawnpoint[i].position, spawnpoint[i].rotation);
+                    }
+                    else
+                    {
+                        Instantiate(Enemies[2], spawnpoint[i].position, spawnpoint[i].rotation);
+                    }
+                }
+            }
+            else if (waveCounter == 4)
+            {
+                for (int i = 0; i < spawnpoint.Length; i++)
+                {
+                    if (i == 0 || i == 1)
+                    {
+                        Instantiate(Enemies[1], spawnpoint[i].position, spawnpoint[i].rotation);
+                    }
+                }
+            }
+            else if (waveCounter == 5)
+            {
+                for (int i = 0; i < spawnpoint.Length; i++)
+                {
+                    Instantiate(Enemies[1], spawnpoint[i].position, spawnpoint[i].rotation);
+                }
+            }
+
+            Debug.Log("This is Wave:" + " " + waveCounter);
         }
 
         if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Level 3"))
         {
-            for (int i = 0; i < spawnpoint.Length - 1; i++)
+            if (waveCounter == 1 || waveCounter == 0)
             {
-                Instantiate(Enemies[2], spawnpoint[i].position, spawnpoint[i].rotation);
-                //spawn an enemy
-                //Debug.Log("this the spawnpoints" + " " + spawnpoint[i]);
-                if (spawnpoint[i] == spawnpoint[1])
+                Instantiate(Enemies[0], spawnpoint[2].position, spawnpoint[2].rotation);
+            }
+            else if (waveCounter == 2)
+            {
+                for (int i = 0; i < spawnpoint.Length; i++)
                 {
-                    i++;
-                    //Debug.Log(spawnpoint[i]);
-                    //spawn stronger enemy
-                    Instantiate(Enemies[3], spawnpoint[i].position, spawnpoint[i].rotation);
-
+                    if (i == 0 || i == 2)
+                    {
+                        Instantiate(Enemies[0], spawnpoint[i].position, spawnpoint[i].rotation);
+                    }
                 }
             }
-            //Debug.Log("This is Wave:" + " " + waveCounter);
+            else if (waveCounter == 3)
+            {
+                for (int i = 0; i < spawnpoint.Length; i++)
+                {
+                    Instantiate(Enemies[0], spawnpoint[i].position, spawnpoint[i].rotation);
+                }
+            }
+            else if (waveCounter == 4)
+            {
+                for (int i = 0; i < spawnpoint.Length; i++)
+                {
+                    if (i == 3)
+                    {
+                        Instantiate(Enemies[1], spawnpoint[i].position, spawnpoint[i].rotation);
+                    }
+                }
+            }
+            else if (waveCounter == 5)
+            {
+                for (int i = 0; i < spawnpoint.Length; i++)
+                {
+                    if (i == 3)
+                    {
+                        Instantiate(Enemies[1], spawnpoint[i].position, spawnpoint[i].rotation);
+                    }
+                    else if (i == 2)
+                    {
+                        Instantiate(Enemies[1], spawnpoint[i].position, spawnpoint[i].rotation);
+                    }
+                }
+            }
+
+            Debug.Log("This is Wave:" + " " + waveCounter);
         }
 
         if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Level 4"))
         {
-            for (int i = 0; i < spawnpoint.Length - 1; i++)
+            if (waveCounter == 1 || waveCounter == 0)
             {
-                Instantiate(Enemies[3], spawnpoint[i].position, spawnpoint[i].rotation);
-                //spawn an enemy
-                //Debug.Log("this the spawnpoints" + " " + spawnpoint[i]);
-                if (spawnpoint[i] == spawnpoint[1])
+                Instantiate(Enemies[1], spawnpoint[0].position, spawnpoint[0].rotation);
+                Instantiate(Enemies[1], spawnpoint[2].position, spawnpoint[2].rotation);
+            }
+            else if (waveCounter == 2)
+            {
+                for (int i = 0; i < spawnpoint.Length; i++)
                 {
-                    i++;
-                    //Debug.Log(spawnpoint[i]);
-                    //spawn stronger enemy
-                    Instantiate(Enemies[3], spawnpoint[i].position, spawnpoint[i].rotation);
-
+                    if (i == 3)
+                    {
+                        Instantiate(Enemies[0], spawnpoint[i].position, spawnpoint[i].rotation);
+                    }
+                    else
+                    {
+                        Instantiate(Enemies[1], spawnpoint[i].position, spawnpoint[i].rotation);
+                    }
                 }
             }
-            //Debug.Log("This is Wave:" + " " + waveCounter);
+            else if (waveCounter == 3)
+            {
+                for (int i = 0; i < spawnpoint.Length; i++)
+                {
+                    if (i == 3)
+                    {
+                        Instantiate(Enemies[1], spawnpoint[i].position, spawnpoint[i].rotation);
+                    }
+                    else
+                    {
+                        Instantiate(Enemies[2], spawnpoint[i].position, spawnpoint[i].rotation);
+                    }
+                }
+            }
+            else if (waveCounter == 4)
+            {
+                for (int i = 0; i < spawnpoint.Length; i++)
+                {
+                    if (i == 0 || i == 1)
+                    {
+                        Instantiate(Enemies[1], spawnpoint[i].position, spawnpoint[i].rotation);
+                    }
+                }
+            }
+            else if (waveCounter == 5)
+            {
+                for (int i = 0; i < spawnpoint.Length; i++)
+                {
+                    Instantiate(Enemies[1], spawnpoint[i].position, spawnpoint[i].rotation);
+                }
+            }
 
-        }*/
+            Debug.Log("This is Wave:" + " " + waveCounter);
+        }
 
     }
 
-   
-
-   
-
-    IEnumerator waveSpawning()
+    IEnumerator WaveSpawning()
     {
            
         while (true)

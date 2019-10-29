@@ -8,6 +8,8 @@ using UnityEngine.SceneManagement;
 public class UIController : MonoBehaviour
 {
     public AudioController audioScript;
+    public PlayerMovment playerScript;
+    public GameController gameScript;
 
     public AudioSource touchSounds;
 
@@ -22,6 +24,8 @@ public class UIController : MonoBehaviour
     public CanvasGroup UI;
     public CanvasGroup WipeGroup;
 
+    Scene name;
+
     string[] names;
 
     string currentQuality;
@@ -31,6 +35,7 @@ public class UIController : MonoBehaviour
     public bool changeScenesOut = false;
     public bool changeScenesIn = true;
 
+    bool hasDied = false;
     bool continuing = false;
     bool pause = false;
 
@@ -48,6 +53,15 @@ public class UIController : MonoBehaviour
     // Start is called before the first frame update
     public void Start()
     {
+        name = SceneManager.GetActiveScene();
+
+        if (name.name != "Main Menu")
+        {
+            playerScript = GameObject.Find("Ninja_01").GetComponent<PlayerMovment>();
+            gameScript = GameObject.Find("Enemy Handler").GetComponent<GameController>();
+            continuing = true;
+        }
+
         settingsVolume.value = audioScript.masterVolume;
         settings = GameObject.Find("Settings Page");
 
@@ -64,6 +78,47 @@ public class UIController : MonoBehaviour
         settings.SetActive(false);
 
         StartCoroutine("FadeIn");
+    }
+
+    public void Update()
+    {
+        if (name.name != "Main Menu")
+        {
+            if ((playerScript.currentHealth <= 0f) && !hasDied && playerScript.dead)
+            {
+                Wipe.SetActive(true);
+                PlayerPrefs.Save();
+                hasDied = true;
+                StartCoroutine("FadeOut");
+                audioScript.StartCoroutine("FadeOut");
+            }
+            else if (playerScript.currentHealth > 0f && !playerScript.dead && gameScript.wavesComplete)
+            {
+                Wipe.SetActive(true);
+
+                if (name.name == "Level 1")
+                {
+                    PlayerPrefs.SetString("Last Level", "Level 2");
+                }
+                else if (name.name == "Level 2")
+                {
+                    PlayerPrefs.SetString("Last Level", "Level 3");
+                }
+                else if (name.name == "Level 3")
+                {
+                    PlayerPrefs.SetString("Last Level", "Level 4");
+                }
+                else if (name.name == "Level 4")
+                {
+                    PlayerPrefs.SetString("Last Level", "Level 4");
+                }
+
+                continuing = true;
+                PlayerPrefs.Save();
+                StartCoroutine("FadeOut");
+                audioScript.StartCoroutine("FadeOut");
+            }
+        }
     }
 
     public void StartGame()
@@ -86,6 +141,7 @@ public class UIController : MonoBehaviour
     {
         //Load the last level you were on.
         continuing = true;
+        Wipe.SetActive(true);
         PlayerPrefs.Save();
         StartCoroutine("FadeOut");
         audioScript.StartCoroutine("FadeOut");
@@ -172,6 +228,18 @@ public class UIController : MonoBehaviour
         }
     }
 
+    public void LoadMainMenu()
+    {
+        continuing = true;
+        pause = false;
+        Time.timeScale = 1;
+        Wipe.SetActive(true);
+        PlayerPrefs.SetString("Last Level", "Main Menu");
+        PlayerPrefs.Save();
+        StartCoroutine("FadeOut");
+        audioScript.StartCoroutine("FadeOut");
+    }
+
     public void LoadLevel1()
     {
         continuing = true;
@@ -228,7 +296,11 @@ public class UIController : MonoBehaviour
             UI.alpha = alpha;
             WipeGroup.alpha = 1f - alpha;
 
-            if (alpha <= 0.05f && continuing == true)
+            if (alpha <= 0.05f && hasDied)
+            {
+                SceneManager.LoadScene(name.name);
+            }
+            else if (alpha <= 0.05f && continuing == true)
             {
                 SceneManager.LoadScene(PlayerPrefs.GetString("Last Level"));
             }

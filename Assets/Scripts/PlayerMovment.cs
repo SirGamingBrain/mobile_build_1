@@ -12,6 +12,10 @@ public class PlayerMovment : MonoBehaviour
     public AudioClip ouch;
     public AudioClip die;
 
+    Button attackButton;
+
+    Image health;
+
     Rigidbody rb;
 
     public Collider sword;
@@ -27,6 +31,7 @@ public class PlayerMovment : MonoBehaviour
     bool attacking = false;
     bool blocking = false;
     bool hurting = false;
+    public bool dead = false;
 
     float xSpeed = 0f;
     float zSpeed = 0f;
@@ -34,7 +39,8 @@ public class PlayerMovment : MonoBehaviour
     float tempHeading = 0f;
     float dCenter = 0f;
 
-    float health = 5;
+    public float currentHealth = 5;
+    readonly float maxHealth = 5;
 
     float debugTimer = 0f;
 
@@ -45,8 +51,13 @@ public class PlayerMovment : MonoBehaviour
 
         joystick = FindObjectOfType<Joystick>();
 
+        attackButton = GameObject.Find("Attack").GetComponent<Button>();
+
         ninja = GetComponent<Animator>();
         sword.enabled = false;
+
+        health = GameObject.Find("Health").GetComponent<Image>();
+        health.fillAmount = currentHealth / maxHealth;
     }
 
     // Update is called once per frame
@@ -58,100 +69,133 @@ public class PlayerMovment : MonoBehaviour
         debugTimer += Time.deltaTime;
 
         dCenter = Vector3.Distance(new Vector3(0, 1.5f, 0f), transform.position);
-
-        if (debugTimer >= 5f)
+        if (currentHealth > 0f)
         {
-            //Debug.Log("Moving: " + moving);
-            //Debug.Log("Horizontal Speed: " + xSpeed);
-            //Debug.Log("Vertical Speed: " + zSpeed);
-            Debug.Log("Distance to Center: " + dCenter);
-            debugTimer = 0f;
-        }
-
-        //Checking to see if the player is moving, and updating some animations.
-
-        if ((joystick.Horizontal == 0 && joystick.Vertical == 0) || (attacking || blocking) || (ninja.GetBool("Attacking")))
-        {
-            moving = false;
-            ninja.SetBool("Running", false);
-        }
-        else
-        {
-            moving = true;
-            ninja.SetBool("Running", true);
-        }
-
-        //Updating the player's speed and direction of movement if they are moving, otherwise slow them overtime.
-        if (moving == true)
-        {
-            xSpeed = joystick.Horizontal * 5f;
-            zSpeed = joystick.Vertical * 5f;
-
-            /*if (dCenter <= 2f)
+            if (debugTimer >= 5f)
             {
-                zSpeed = 0f;
-            }*/
-        }
-        else
-        {
-            if (xSpeed > 0.1f)
-            {
-                xSpeed -= .2f;
+                //Debug.Log("Moving: " + moving);
+                //Debug.Log("Horizontal Speed: " + xSpeed);
+                //Debug.Log("Vertical Speed: " + zSpeed);
+                Debug.Log("Distance to Center: " + dCenter);
+                debugTimer = 0f;
             }
-            else if (xSpeed < -0.1f)
+
+            //Checking to see if the player is moving, and updating some animations.
+
+            if ((joystick.Horizontal == 0 && joystick.Vertical == 0) || (attacking || blocking) || (ninja.GetBool("Attacking")))
             {
-                xSpeed += .2f;
+                moving = false;
+                ninja.SetBool("Running", false);
             }
             else
             {
-                xSpeed = 0f;
+                moving = true;
+                ninja.SetBool("Running", true);
+                ninja.SetBool("Attacking", false);
+                ninja.SetBool("Blocking", false);
             }
 
-            if (zSpeed > 0f)
+            //Updating the player's speed and direction of movement if they are moving, otherwise slow them overtime.
+            if (moving == true)
             {
-                zSpeed -= .2f;
-            }
-            else if (zSpeed < -0.2f)
-            {
-                zSpeed += .1f;
+                xSpeed = joystick.Horizontal * 5f;
+                zSpeed = joystick.Vertical * 5f;
+
+                /*if (dCenter <= 2f)
+                {
+                    zSpeed = 0f;
+                }*/
             }
             else
             {
-                zSpeed = 0f;
+                if (xSpeed > 0.1f)
+                {
+                    xSpeed -= .2f;
+                }
+                else if (xSpeed < -0.1f)
+                {
+                    xSpeed += .2f;
+                }
+                else
+                {
+                    xSpeed = 0f;
+                }
+
+                if (zSpeed > 0f)
+                {
+                    zSpeed -= .2f;
+                }
+                else if (zSpeed < -0.2f)
+                {
+                    zSpeed += .1f;
+                }
+                else
+                {
+                    zSpeed = 0f;
+                }
+            }
+
+            forwardVel = transform.forward * zSpeed;
+            horizontalVel = transform.right * xSpeed;
+
+            //rb.velocity = new Vector3(xSpeed, 0f,zSpeed);
+            rb.velocity = (forwardVel + horizontalVel);
+
+            //Updating the player's direction based on movement.
+            if (moving)
+            {
+                heading = Mathf.Atan2(joystick.Horizontal, joystick.Vertical);
+                tempHeading = heading;
+            }
+
+            transform.Rotate(0f, tempHeading * Mathf.Rad2Deg, 0f, Space.Self);
+
+            //Updating the state of animation of the player based on what is happening.
+            if (blocking == true)
+            {
+                rb.velocity = (transform.forward * 7.5f);
             }
         }
-
-        forwardVel = transform.forward * zSpeed;
-        horizontalVel = transform.right * xSpeed;
-
-        //rb.velocity = new Vector3(xSpeed, 0f,zSpeed);
-        rb.velocity = (forwardVel + horizontalVel);
-
-        //Updating the player's direction based on movement.
-        if (moving) {
-            heading = Mathf.Atan2(joystick.Horizontal, joystick.Vertical);
-            tempHeading = heading;
-        }
-
-        transform.Rotate(0f, tempHeading * Mathf.Rad2Deg, 0f, Space.Self);
-
-        //Updating the state of animation of the player based on what is happening.
-        if (blocking == true)
+        else
         {
-            rb.velocity = (transform.forward * 7.5f);
+            ninja.SetBool("Dead", true);
+        }
+    }
+
+    public void Update()
+    {
+        if (attacking == true)
+        {
+            attackButton.enabled = false;
+        }
+        else
+        {
+            attackButton.enabled = true;
         }
     }
 
     public void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Weapon"))
+        if (other.CompareTag("Weapon") && !blocking)
         {
             Debug.Log("I've been hit!");
-            health -= 1;
-            hurting = true;
-            playerSounds.clip = ouch;
-            playerSounds.Play();
-            ninja.SetBool("Hurt", true);
+
+            if (currentHealth > 0f && !ninja.GetBool("Hurt"))
+            {
+                currentHealth -= 1;
+                health.fillAmount = currentHealth / maxHealth;
+                hurting = true;
+                playerSounds.clip = ouch;
+                playerSounds.Play();
+                if (currentHealth == 0f)
+                {
+                    ninja.SetBool("Dead", true);
+                }
+                else
+                {
+                    ninja.SetBool("Hurt", true);
+                }
+            }
         }
     }
 
@@ -176,6 +220,10 @@ public class PlayerMovment : MonoBehaviour
             attacking = true;
             ninja.SetBool("Attacking", true);
         }
+        else
+        {
+            ninja.SetBool("Attacking", false);
+        }
     }
 
     public void Block()
@@ -196,5 +244,10 @@ public class PlayerMovment : MonoBehaviour
     {
         hurting = false;
         ninja.SetBool("Hurt", false);
+    }
+
+    public void DeathOver()
+    {
+        dead = true;
     }
 }
